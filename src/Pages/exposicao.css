@@ -1,0 +1,20 @@
+button.painel.comprimido:hover {
+    height: 160px;
+}
+
+button.painel.comprimido {
+    transition: height .5s;
+}
+
+button.painel {
+    height: 96px;
+    width: 100%;
+    padding: 0;
+    position: 'relative';
+    background-position: top;
+    background-size: cover;
+}
+
+.painel.titulo {
+    text-shadow: 2px 2px 4px black
+}
