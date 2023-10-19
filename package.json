@@ -8,6 +8,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "dependencies": {
     "@emotion/react": "latest",
     "@emotion/styled": "latest",
