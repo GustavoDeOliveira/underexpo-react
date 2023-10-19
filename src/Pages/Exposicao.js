@@ -42,37 +42,33 @@ async function carregarPainel(idExposicao, idPainel) {
   });
 }
 
-function onClickPainel(painel, setPainelAtivo) {
-  painel.expandido = !painel.expandido;
-  setPainelAtivo(painel.id);
+function onClickPainel(painel, painelAtivo, setPainelAtivo) {
+  if (painel.id === painelAtivo) setPainelAtivo(0);
+  else setPainelAtivo(painel.id);
 }
 
 export const Exposicao = () => {
   const { exposicao } = useLoaderData();
 
   const [painelAtivo, setPainelAtivo] = React.useState(0);
-  const [paineis, setPaineis] = React.useState(exposicao.paineis);
+  const [paineis] = React.useState(exposicao.paineis);
 
   React.useEffect(() => {
     if (painelAtivo) {
-      paineis.filter(p => p.id !== painelAtivo).forEach(p => {
-        p.expandido = false;
-      });
-      const painel = paineis.find(p => p.id == painelAtivo);
+      const painel = paineis.find(p => p.id === painelAtivo);
       if (!painel.elementos) {
-        painel.carregando = true;
         carregarPainel(exposicao.id, painelAtivo)
-          .then((painel) => {
-            console.log(painel);
-            paineis.find(p => p.id == painelAtivo).elementos = painel.elementos;
-          }).finally(() => painel.carregando = false);
+          .then((retornoPainel) => {
+            console.log(retornoPainel);
+            paineis[paineis.indexOf(painel)] = {...painel, elementos: retornoPainel.elementos };
+          });
       }
     }
   }, [paineis, painelAtivo]);
 
   return (
     <Box>
-      <Container sx={{position: 'relative'}}>
+      <Container sx={{position: 'relative', height: '128px',pt: '16px'}}>
         <Typography gutterBottom variant="h2" color="text.primary" align="center">{exposicao.nome}</Typography>
         <TagAutor nome={exposicao.organizador} organizador sx={{pt: '100%'}} />
       </Container>
@@ -82,14 +78,14 @@ export const Exposicao = () => {
           <Container key={painel.id} className="painel">
             <Button
               variant="text"
-              onClick={() => onClickPainel(painel, setPainelAtivo)}
+              onClick={() => onClickPainel(painel, painelAtivo, setPainelAtivo)}
               sx={{backgroundImage: `url(${painel.urlMiniatura})`}}
-              className={'painel' + (painel.expandido ? '' : ' comprimido')}
+              className={'painel' + (painelAtivo === painel.id ? '' : ' comprimido')}
               >
                 <Typography variant="h3" className="painel titulo">{painel.nome}</Typography>
                 <TagAutor nome={painel.autor} />
             </Button>
-            <Painel painel={painel} />
+            <Painel painel={painel} ativo={painel.id === painelAtivo} />
           </Container>
         ))}
       </Stack>
