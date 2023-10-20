@@ -52,19 +52,21 @@ export const Exposicao = () => {
 
   const [painelAtivo, setPainelAtivo] = React.useState(0);
   const [paineis] = React.useState(exposicao.paineis);
+  const [carregando, setCarregando] = React.useState(false);
 
   React.useEffect(() => {
     if (painelAtivo) {
       const painel = paineis.find(p => p.id === painelAtivo);
       if (!painel.elementos) {
+        setCarregando(true);
         carregarPainel(exposicao.id, painelAtivo)
           .then((retornoPainel) => {
-            console.log(retornoPainel);
-            paineis[paineis.indexOf(painel)] = {...painel, elementos: retornoPainel.elementos };
+            painel.elementos = retornoPainel.elementos;
+            setCarregando(false);
           });
       }
     }
-  }, [paineis, painelAtivo]);
+  }, [painelAtivo]);
 
   return (
     <Box>
@@ -85,7 +87,7 @@ export const Exposicao = () => {
                 <Typography variant="h3" className="painel titulo">{painel.nome}</Typography>
                 <TagAutor nome={painel.autor} />
             </Button>
-            <Painel painel={painel} ativo={painel.id === painelAtivo} />
+            <Painel painel={painel} ativo={painelAtivo === painel.id} />
           </Container>
         ))}
       </Stack>
