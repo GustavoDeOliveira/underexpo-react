@@ -4,7 +4,7 @@ import { Erro } from './Pages/Erro';
 import { Explorar, loader as explorarLoader } from './Pages/Explorar';
 import { Exposicao, loader as exposicaoLoader } from './Pages/Exposicao';
 import Exposicoes from './Pages/Exposicoes';
-import { GerenciarExposicoes } from './Pages/GerenciarExposicoes';
+import { GerenciarExposicoes, loader as gerenciarExposicoesLoader } from './Pages/GerenciarExposicoes';
 import { Perfil } from './Pages/Perfil';
 
 const router = createBrowserRouter([
@@ -25,6 +25,7 @@ const router = createBrowserRouter([
             },
             {
               path: "gerenciar",
+              loader: gerenciarExposicoesLoader,
               element: <GerenciarExposicoes />
             },
             {

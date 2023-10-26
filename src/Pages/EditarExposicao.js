@@ -47,7 +47,7 @@ function onClickPainel(painel, painelAtivo, setPainelAtivo) {
   else setPainelAtivo(painel.id);
 }
 
-export const Exposicao = () => {
+export const EditarExposicao = () => {
   const { exposicao } = useLoaderData();
 
   const [painelAtivo, setPainelAtivo] = React.useState(0);

@@ -1,6 +1,6 @@
 {
-  "name": "material-ui-cra",
-  "version": "5.0.0",
+  "name": "underexpo",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
@@ -9,7 +9,7 @@
     "eject": "react-scripts eject"
   },
   "engines": {
-    "node": "16.x"
+    "node": "16.14.2"
   },
   "dependencies": {
     "@emotion/react": "latest",
@@ -17,10 +17,11 @@
     "@mui/icons-material": "^5.14.12",
     "@mui/material": "latest",
     "fs": "^0.0.1-security",
+    "material-ui-audio-player": "^1.7.1",
     "querystring": "^0.2.1",
     "querystring-es3": "^0.2.1",
-    "react": "latest",
-    "react-dom": "latest",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-helmet-async": "^1.3.0",
     "react-scripts": "latest",
     "superagent": "^8.1.2"
@@ -38,6 +39,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "latest",
     "react-router-dom": "^6.16.0"
   }
 }

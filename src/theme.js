@@ -46,10 +46,14 @@ const theme = extendTheme({
     },
     text: {
       main: '#000',
+      contrast: '#FFF'
     },
     error: {
       main: red.A400,
     },
+    background: {
+      default: '#B7B7B7'
+    }
   },
   components: {
     MuiLink: {

@@ -16,5 +16,6 @@ button.painel {
 }
 
 .painel.titulo {
-    text-shadow: 2px 2px 4px black
+    text-shadow: 2px 2px 4px black;
+    color: var(--mui-palette-text-contrast)
 }

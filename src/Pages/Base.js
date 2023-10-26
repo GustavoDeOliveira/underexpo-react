@@ -7,7 +7,7 @@ import Header from '../Components/Header';
 export const Base = () => {
   return (
     <Container>
-      <Box sx={{ }}>
+      <Box sx={{backgroundColor: 'background.paper'}}>
         <Header />
         <Outlet />
         <Footer />

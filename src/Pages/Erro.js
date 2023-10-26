@@ -10,7 +10,7 @@ export const Erro = () => {
   return (
     
     <Container>
-      <Box sx={{ }}>
+      <Box sx={{ backgroundColor: 'background.paper' }}>
         <Header />
         <Container maxWidth="md">
           <Typography gutterBottom align="center" variant="h1">Epa!</Typography>

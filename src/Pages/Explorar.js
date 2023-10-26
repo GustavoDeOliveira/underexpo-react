@@ -1,9 +1,9 @@
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import * as React from 'react';
+import { useLoaderData } from 'react-router-dom';
 import Cartao from '../Components/Cartao';
 import { ExposicaoApi } from '../Services/api/ExposicaoApi';
-import { useLoaderData } from 'react-router-dom';
 
 const pageSize = 10;
 const api = new ExposicaoApi();
@@ -39,7 +39,7 @@ export const Explorar = () => {
       setCards(exposicoes);
   }, [page]);
   return (
-    <Container sx={{ py: 8 }} maxWidth="md">
+    <Container sx={{ backgroundColor: 'primary.main', py: 8 }} maxWidth="md">
       <Grid container spacing={4}>
         {cards.map((card) => (
           <Grid item key={card.id} xs={12} sm={6} md={4}>
