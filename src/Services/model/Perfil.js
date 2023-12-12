@@ -16,29 +16,31 @@
 import {ApiClient} from '../ApiClient';
 
 /**
- * The AtualizarObra model module.
- * @module model/AtualizarObra
+ * The Perfil model module.
+ * @module model/Perfil
  * @version 0.0.1
  */
-export class AtualizarObra {
+export class Perfil {
   /**
-   * Constructs a new <code>AtualizarObra</code>.
-   * @alias module:model/AtualizarObra
+   * Constructs a new <code>Perfil</code>.
+   * @alias module:model/Perfil
    * @class
+   * @param nome {String} 
    */
-  constructor() {
+  constructor(nome) {
+    this.nome = nome;
   }
 
   /**
-   * Constructs a <code>AtualizarObra</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>Perfil</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/AtualizarObra} obj Optional instance to populate.
-   * @return {module:model/AtualizarObra} The populated <code>AtualizarObra</code> instance.
+   * @param {module:model/Perfil} obj Optional instance to populate.
+   * @return {module:model/Perfil} The populated <code>Perfil</code> instance.
    */
   static constructFromObject(data, obj) {
     if (data) {
-      obj = obj || new AtualizarObra();
+      obj = obj || new Perfil();
       if (data.hasOwnProperty('nome'))
         obj.nome = ApiClient.convertToType(data['nome'], 'String');
     }
@@ -49,5 +51,5 @@ export class AtualizarObra {
 /**
  * @member {String} nome
  */
-AtualizarObra.prototype.nome = undefined;
+Perfil.prototype.nome = undefined;
 

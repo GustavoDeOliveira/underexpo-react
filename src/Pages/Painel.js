@@ -28,7 +28,10 @@ export const Painel = (params) => {
                     'texto': <Typography color="text.secondary">{elemento.conteudo}</Typography>,
                     'imagem': <Box sx={{backgroundImage: `url(${elemento.conteudo})`}} />,
                     'video': <YoutubeEmbed embedId={elemento.conteudo} />,
-                    'audio': <Container sx={{pb: '32px'}}><AudioPlayer onPlayed={pauseOthers} rounded width="100%" variation="primary" spacing={0} src={elemento.conteudo} /></Container>
+                    'audio':
+                      (elemento.conteudo
+                      ? <Container sx={{pb: '32px'}}><AudioPlayer onPlayed={pauseOthers} rounded width="100%" variation="primary" spacing={0} src={elemento.conteudo} /></Container>
+                      : <Typography>Não foi possível carregar o arquivo de áudio.</Typography>)
                   }[elemento.tipo]}
                 </Container>
               ))}

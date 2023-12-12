@@ -16,43 +16,41 @@
 import {ApiClient} from '../ApiClient';
 
 /**
- * The ResumoExposicao model module.
- * @module model/ResumoExposicao
+ * The NotificacaoExposicao model module.
+ * @module model/NotificacaoExposicao
  * @version 0.0.1
  */
-export class ResumoExposicao {
+export class NotificacaoExposicao {
   /**
-   * Constructs a new <code>ResumoExposicao</code>.
-   * @alias module:model/ResumoExposicao
+   * Constructs a new <code>NotificacaoExposicao</code>.
+   * @alias module:model/NotificacaoExposicao
    * @class
+   * @param painelId {Number} 
    * @param nome {String} 
-   * @param urlMiniatura {String} 
    * @param organizador {String} 
    */
-  constructor(nome, urlMiniatura, organizador) {
+  constructor(painelId, nome, organizador) {
+    this.painelId = painelId;
     this.nome = nome;
-    this.urlMiniatura = urlMiniatura;
     this.organizador = organizador;
   }
 
   /**
-   * Constructs a <code>ResumoExposicao</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>NotificacaoExposicao</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/ResumoExposicao} obj Optional instance to populate.
-   * @return {module:model/ResumoExposicao} The populated <code>ResumoExposicao</code> instance.
+   * @param {module:model/NotificacaoExposicao} obj Optional instance to populate.
+   * @return {module:model/NotificacaoExposicao} The populated <code>NotificacaoExposicao</code> instance.
    */
   static constructFromObject(data, obj) {
     if (data) {
-      obj = obj || new ResumoExposicao();
+      obj = obj || new NotificacaoExposicao();
       if (data.hasOwnProperty('id'))
         obj.id = ApiClient.convertToType(data['id'], 'Number');
+      if (data.hasOwnProperty('painelId'))
+        obj.painelId = ApiClient.convertToType(data['painelId'], 'Number');
       if (data.hasOwnProperty('nome'))
         obj.nome = ApiClient.convertToType(data['nome'], 'String');
-      if (data.hasOwnProperty('descricao'))
-        obj.descricao = ApiClient.convertToType(data['descricao'], 'String');
-      if (data.hasOwnProperty('urlMiniatura'))
-        obj.urlMiniatura = ApiClient.convertToType(data['urlMiniatura'], 'String');
       if (data.hasOwnProperty('organizador'))
         obj.organizador = ApiClient.convertToType(data['organizador'], 'String');
     }
@@ -63,25 +61,20 @@ export class ResumoExposicao {
 /**
  * @member {Number} id
  */
-ResumoExposicao.prototype.id = undefined;
+NotificacaoExposicao.prototype.id = undefined;
+
+/**
+ * @member {Number} painelId
+ */
+NotificacaoExposicao.prototype.painelId = undefined;
 
 /**
  * @member {String} nome
  */
-ResumoExposicao.prototype.nome = undefined;
-
-/**
- * @member {String} descricao
- */
-ResumoExposicao.prototype.descricao = undefined;
-
-/**
- * @member {String} urlMiniatura
- */
-ResumoExposicao.prototype.urlMiniatura = undefined;
+NotificacaoExposicao.prototype.nome = undefined;
 
 /**
  * @member {String} organizador
  */
-ResumoExposicao.prototype.organizador = undefined;
+NotificacaoExposicao.prototype.organizador = undefined;
 

@@ -16,38 +16,40 @@
 import {ApiClient} from '../ApiClient';
 
 /**
- * The AtualizarObra model module.
- * @module model/AtualizarObra
+ * The InlineResponse201 model module.
+ * @module model/InlineResponse201
  * @version 0.0.1
  */
-export class AtualizarObra {
+export class InlineResponse201 {
   /**
-   * Constructs a new <code>AtualizarObra</code>.
-   * @alias module:model/AtualizarObra
+   * Constructs a new <code>InlineResponse201</code>.
+   * @alias module:model/InlineResponse201
    * @class
+   * @param id {Number} 
    */
-  constructor() {
+  constructor(id) {
+    this.id = id;
   }
 
   /**
-   * Constructs a <code>AtualizarObra</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>InlineResponse201</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/AtualizarObra} obj Optional instance to populate.
-   * @return {module:model/AtualizarObra} The populated <code>AtualizarObra</code> instance.
+   * @param {module:model/InlineResponse201} obj Optional instance to populate.
+   * @return {module:model/InlineResponse201} The populated <code>InlineResponse201</code> instance.
    */
   static constructFromObject(data, obj) {
     if (data) {
-      obj = obj || new AtualizarObra();
-      if (data.hasOwnProperty('nome'))
-        obj.nome = ApiClient.convertToType(data['nome'], 'String');
+      obj = obj || new InlineResponse201();
+      if (data.hasOwnProperty('id'))
+        obj.id = ApiClient.convertToType(data['id'], 'Number');
     }
     return obj;
   }
 }
 
 /**
- * @member {String} nome
+ * @member {Number} id
  */
-AtualizarObra.prototype.nome = undefined;
+InlineResponse201.prototype.id = undefined;
 

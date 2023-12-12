@@ -1,0 +1,24 @@
+#editar-titulo {
+    font-size: 36px;
+}
+
+form button:hover {
+    color: var(--mui-palette-primary-dark);
+}
+
+button.remover-painel {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: '100%';
+    color: var(--mui-palette-error-light);
+}
+
+button.remover-painel:hover {
+    color: var(--mui-palette-error-dark);
+}
+
+button.sugestao-convite {
+    color: var(--mui-palette-text-primary);
+    text-transform: none;
+}

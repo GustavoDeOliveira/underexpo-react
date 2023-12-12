@@ -1,0 +1,17 @@
+button.cancelar-principal {
+    color: var(--mui-palette-text-secondary);
+    background-color: var(--mui-palette-primary-light);
+}
+
+button.cancelar-principal:hover {
+    color: var(--mui-palette-text-contrast);
+    background-color: var(--mui-palette-primary-dark);
+}
+
+button.confirmar-critico {
+    color: var(--mui-palette-error-light);
+}
+
+button.confirmar {
+    color: var(--mui-palette-text-primary);
+}

@@ -1,0 +1,28 @@
+a.acao-card, button.acao-card {
+    color: transparent;
+    background-color: transparent;
+    border-radius: 50%;
+    margin-left: 16px;
+    margin-right: 16px;
+    width: 64px;
+    height: 64px;
+    box-shadow: none;
+}
+
+button.card:hover a.acao-card:hover, button.card:hover button.acao-card:hover {
+    color: var(--mui-palette-text-contrast);
+    background-color: var(--mui-palette-primary-dark);
+}
+
+button.card:hover a.acao-card.destacado, button.card:hover button.acao-card.destacado {
+    background-color: var(--mui-palette-error-main);
+}
+
+button.card:hover a.acao-card.destacado:hover, button.card:hover button.acao-card.destacado:hover {
+    background-color: var(--mui-palette-error-dark);
+}
+
+button.card:hover a,button.card:hover button {
+    color: var(--mui-palette-text-secondary);
+    background-color: var(--mui-palette-primary-light);
+}

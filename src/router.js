@@ -6,6 +6,7 @@ import { Exposicao, loader as exposicaoLoader } from './Pages/Exposicao';
 import Exposicoes from './Pages/Exposicoes';
 import { GerenciarExposicoes, loader as gerenciarExposicoesLoader } from './Pages/GerenciarExposicoes';
 import { Perfil } from './Pages/Perfil';
+import { EditarExposicao, loader as editarExposicaoLoader } from "./Pages/EditarExposicao";
 
 const router = createBrowserRouter([
     {
@@ -32,6 +33,11 @@ const router = createBrowserRouter([
               path: ":idExposicao",
               loader: exposicaoLoader,
               element: <Exposicao />
+            },
+            {
+              path: ":idExposicao/editar",
+              loader: editarExposicaoLoader,
+              element: <EditarExposicao />
             }
           ]
         },
