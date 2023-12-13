@@ -46,8 +46,8 @@ export async function loader() {
 
 export const GerenciarExposicoes = () => {
   const novaExposicao = () => {
-    setOrganizandoExposicao(true)
-    organizarExposicao('Minha Exposição', 'Adicione uma descrição!', setOrganizandoExposicao(false));
+    setOrganizandoExposicao(true);
+    organizarExposicao('Minha Exposição', 'Adicione uma descrição!', () => setOrganizandoExposicao(false));
   }
   const [cards] = React.useState(useLoaderData().exposicoes);
   const [organizandoExposicao, setOrganizandoExposicao] = React.useState(false);
@@ -55,7 +55,7 @@ export const GerenciarExposicoes = () => {
     <Container sx={{ backgroundColor: 'primary.main', py: 8 }} maxWidth="md">
       <Grid container spacing={4}>
         <Grid item key={0} xs={12} sm={6} md={4}>
-          <Button onClick={novaExposicao} sx={theme => ({height: '100%', width: '100%', backgroundColor: theme.palette.primary.light, color: theme.palette.text.primary })}>
+          <Button onClick={organizandoExposicao ? ()=>{} : novaExposicao} sx={theme => ({height: '100%', width: '100%', backgroundColor: theme.palette.primary.light, color: theme.palette.text.primary })}>
             <Stack alignItems="center">
               {organizandoExposicao ? <LoadingIcon fontSize="large" /> : <AddIcon fontSize="large" />}
                 <Typography variant="h5">{organizandoExposicao ? 'Organizando exposição...': 'Nova Exposição'}</Typography>

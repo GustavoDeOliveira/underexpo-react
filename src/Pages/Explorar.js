@@ -39,7 +39,7 @@ export const Explorar = () => {
       setCards(exposicoes);
   }, [page]);
   return (
-    <Container sx={{ backgroundColor: 'primary.main', py: 8 }} maxWidth="md">
+    <Container sx={theme => ({ backgroundColor: theme.palette.primary.main, py: 8 })} maxWidth="md">
       <Grid container spacing={4}>
         {cards.map((card) => (
           <Grid item key={card.id} xs={12} sm={6} md={4}>

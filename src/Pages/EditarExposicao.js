@@ -17,7 +17,8 @@ const perfilApi = new PerfilApi();
 
 function atualizarExposicao(id, titulo, descricao, paineis) {
   const p = new Promise((resolve, reject) => {
-    api.atualizarExposicao(null, titulo, descricao, paineis, id, (err, data, res) => {
+    console.log('request: %o', { id, titulo, descricao, paineis });
+    api.atualizarExposicao({nome: titulo, descricao: descricao, paineis: paineis}, titulo, descricao, paineis, id, (err, data, res) => {
       if (err) {
         console.log('error: %o', err);
         reject(err);
@@ -149,7 +150,10 @@ export const EditarExposicao = () => {
               setStatusBuscaUsuarios('Não foi possivel encontrar usuários com os termos de busca atuais..');
             }
             setSugestoesConvites(response);
-          }).catch(setStatusBuscaUsuarios('Não foi possivel buscar usuários. Por favor, tente novamente mais tarde.'))
+          }).catch(reason => {
+            console.log(reason);
+            setStatusBuscaUsuarios('Não foi possivel buscar usuários. Por favor, tente novamente mais tarde.');
+          })
         }, 1000);
       retorno = () => clearTimeout(timeout);
     } else {
@@ -163,7 +167,7 @@ export const EditarExposicao = () => {
   };
 
   const salvarTitulo = () => {
-    atualizarExposicao(exposicao.id, novoTitulo, null, [])
+    atualizarExposicao(exposicao.id, novoTitulo, undefined, [])
       .then(response => {
         exposicao.nome = novoTitulo;
         setEditandoTitulo(!editandoTitulo);
@@ -183,7 +187,7 @@ export const EditarExposicao = () => {
   };
 
   const salvarDescricao = () => {
-    atualizarExposicao(exposicao.id, novaDescricao, null, [])
+    atualizarExposicao(exposicao.id, undefined, novaDescricao, [])
       .then(response => {
         exposicao.descricao = novaDescricao;
         setEditandoDescricao(!editandoDescricao);
