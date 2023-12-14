@@ -1,7 +1,7 @@
 import React from 'react'
 import { Alert, Box, Button, ButtonGroup, Collapse, Container, Grid, IconButton, Stack, TextField, Typography } from '@mui/material';
 import { useLoaderData } from 'react-router-dom';
-import { TagAutor } from '../Components/TagAutor';
+import { TagAutor } from '../../Components/TagAutor';
 import './exposicao.css';
 import './editarExposicao.css';
 import Edit from '@mui/icons-material/Edit';
@@ -9,8 +9,8 @@ import Cancel from '@mui/icons-material/CancelOutlined';
 import Check from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import RemoveIcon from '@mui/icons-material/Delete';
-import { ExposicaoApi, PerfilApi } from '../Services';
-import { DialogoConfirmacao } from '../Components/DialogoConfirmacao';
+import { ExposicaoApi, PerfilApi } from '../../Services';
+import { DialogoConfirmacao } from '../../Components/DialogoConfirmacao';
 
 const api = new ExposicaoApi();
 const perfilApi = new PerfilApi();

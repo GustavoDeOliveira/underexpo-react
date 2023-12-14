@@ -1,10 +1,10 @@
 import React from 'react'
-import { ExposicaoApi } from '../Services/api/ExposicaoApi';
+import { ExposicaoApi } from '../../Services/api/ExposicaoApi';
 import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import { useLoaderData } from 'react-router-dom';
-import { TagAutor } from '../Components/TagAutor';
+import { TagAutor } from '../../Components/TagAutor';
 import './exposicao.css';
-import { Painel } from './Painel';
+import { Painel } from '../../Components/Painel';
 
 const api = new ExposicaoApi();
 

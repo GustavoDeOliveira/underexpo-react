@@ -1,6 +1,6 @@
 import { Box, Container, Stack, Typography } from '@mui/material';
 import React from 'react';
-import YoutubeEmbed from '../Components/YoutubeEmbed';
+import YoutubeEmbed from './YoutubeEmbed';
 import AudioPlayer from 'material-ui-audio-player';
 
 function pauseOthers(event) {

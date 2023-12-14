@@ -14,11 +14,15 @@
  *
  */
 import {ApiClient} from "../ApiClient";
+import {AtualizarContato} from '../model/AtualizarContato';
 import {AtualizarObra} from '../model/AtualizarObra';
+import {Contato} from '../model/Contato';
 import {ConviteExposicao} from '../model/ConviteExposicao';
+import {InlineResponse2011} from '../model/InlineResponse2011';
 import {Notificacao} from '../model/Notificacao';
 import {NovaNotificacao} from '../model/NovaNotificacao';
 import {NovaObra} from '../model/NovaObra';
+import {NovoContato} from '../model/NovoContato';
 import {Obra} from '../model/Obra';
 import {Perfil} from '../model/Perfil';
 import {ResumoExposicao} from '../model/ResumoExposicao';
@@ -145,7 +149,7 @@ Deve ser de um formato suportado pelo tipo da obra
      * Callback function to receive the result of the adicionarContato operation.
      * @callback moduleapi/PerfilApi~adicionarContatoCallback
      * @param {String} error Error message, if any.
-     * @param data This operation does not return a value.
+     * @param {module:model/InlineResponse2011{ data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
@@ -153,11 +157,12 @@ Deve ser de um formato suportado pelo tipo da obra
      * Adicionar canal de contato ao perfil do usuario
      * Adiciona um canal de contato ao perfil da conta da sessão atual
      * @param {Object} opts Optional parameters
-     * @param {module:model/NovaNotificacao} opts.body Dados de contato a serem cadastrados.
-     * @param {Number} opts.expoId 
-     * @param {Number} opts.painelId 
-     * @param {String} opts.artista 
+     * @param {module:model/NovoContato} opts.body Dados de contato a serem cadastrados.
+     * @param {String} opts.canal 
+     * @param {String} opts.nome 
+     * @param {String} opts.link 
      * @param {module:api/PerfilApi~adicionarContatoCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
     adicionarContato(opts, callback) {
       opts = opts || {};
@@ -173,13 +178,13 @@ Deve ser de um formato suportado pelo tipo da obra
         
       };
       let formParams = {
-        'expoId': opts['expoId'],'painelId': opts['painelId'],'artista': opts['artista']
+        'canal': opts['canal'],'nome': opts['nome'],'link': opts['link']
       };
 
       let authNames = ['underexpo_auth'];
       let contentTypes = ['application/json', 'application/xml', 'application/x-www-form-urlencoded'];
-      let accepts = [];
-      let returnType = null;
+      let accepts = ['application/json'];
+      let returnType = InlineResponse2011;
 
       return this.apiClient.callApi(
         '/perfil/contato', 'POST',
@@ -244,11 +249,13 @@ Deve ser de um formato suportado pelo tipo da obra
      * Atualizar canal de contato
      * Atualiza um canal de contato
      * @param {Number} id id do contato
+     * @param {Object} opts Optional parameters
+     * @param {module:model/AtualizarContato} opts.body Dados para atualização do canal de contato
      * @param {module:api/PerfilApi~atualizarContatoCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    atualizarContato(id, callback) {
-      
-      let postBody = null;
+    atualizarContato(id, opts, callback) {
+      opts = opts || {};
+      let postBody = opts['body'];
       // verify the required parameter 'id' is set
       if (id === undefined || id === null) {
         throw new Error("Missing the required parameter 'id' when calling atualizarContato");
@@ -268,7 +275,7 @@ Deve ser de um formato suportado pelo tipo da obra
       };
 
       let authNames = ['underexpo_auth'];
-      let contentTypes = [];
+      let contentTypes = ['aplication/json'];
       let accepts = [];
       let returnType = null;
 
@@ -329,7 +336,7 @@ Deve ser de um formato suportado pelo tipo da obra
      * Callback function to receive the result of the buscarContatoPorId operation.
      * @callback moduleapi/PerfilApi~buscarContatoPorIdCallback
      * @param {String} error Error message, if any.
-     * @param {module:model/Notificacao{ data The data returned by the service call.
+     * @param {module:model/Contato{ data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
@@ -364,7 +371,7 @@ Deve ser de um formato suportado pelo tipo da obra
       let authNames = ['underexpo_auth'];
       let contentTypes = [];
       let accepts = ['application/json', 'application/xml'];
-      let returnType = Notificacao;
+      let returnType = Contato;
 
       return this.apiClient.callApi(
         '/perfil/contato/{id}', 'GET',
@@ -376,7 +383,7 @@ Deve ser de um formato suportado pelo tipo da obra
      * Callback function to receive the result of the buscarContatos operation.
      * @callback moduleapi/PerfilApi~buscarContatosCallback
      * @param {String} error Error message, if any.
-     * @param {Array.<module:model/Notificacao>{ data The data returned by the service call.
+     * @param {Array.<module:model/Contato>{ data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
@@ -416,7 +423,7 @@ Deve ser de um formato suportado pelo tipo da obra
       let authNames = ['underexpo_auth'];
       let contentTypes = [];
       let accepts = ['application/json', 'application/xml'];
-      let returnType = [Notificacao];
+      let returnType = [Contato];
 
       return this.apiClient.callApi(
         '/perfil/contato', 'GET',
@@ -860,7 +867,7 @@ Deve ser de um formato suportado pelo tipo da obra
     /**
      * Cancelar convite para exposição
      * Cancela um convite para uma exposição
-     * @param {Number} id id do contato
+     * @param {Number} id id do convite
      * @param {module:api/PerfilApi~removerNotificacaoCallback} callback The callback function, accepting three arguments: error, data, response
      */
     removerNotificacao(id, callback) {

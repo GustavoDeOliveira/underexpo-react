@@ -9,7 +9,7 @@ const rotas = [
   {titulo: 'Minhas Exposições', destino: 'gerenciar'}
 ]
 
-export default function Exposicoes() {
+export const Exposicoes = () => {
   return (
     <div>
       <AppBar position="relative" color="secondary">
@@ -27,4 +27,4 @@ export default function Exposicoes() {
       <Outlet />
     </div>
   );
-}
+};

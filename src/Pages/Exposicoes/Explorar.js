@@ -2,8 +2,8 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import * as React from 'react';
 import { useLoaderData } from 'react-router-dom';
-import Cartao from '../Components/Cartao';
-import { ExposicaoApi } from '../Services/api/ExposicaoApi';
+import Cartao from '../../Components/Cartao';
+import { ExposicaoApi } from '../../Services/api/ExposicaoApi';
 
 const pageSize = 10;
 const api = new ExposicaoApi();

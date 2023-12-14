@@ -117,6 +117,27 @@ export class ExposicaoApi {
     atualizarExposicao(body, nome, descricao, paineis, expoId, callback) {
       
       let postBody = body;
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling atualizarExposicao");
+      }
+      // verify the required parameter 'nome' is set
+      if (nome === undefined || nome === null) {
+        throw new Error("Missing the required parameter 'nome' when calling atualizarExposicao");
+      }
+      // verify the required parameter 'descricao' is set
+      if (descricao === undefined || descricao === null) {
+        throw new Error("Missing the required parameter 'descricao' when calling atualizarExposicao");
+      }
+      // verify the required parameter 'paineis' is set
+      if (paineis === undefined || paineis === null) {
+        throw new Error("Missing the required parameter 'paineis' when calling atualizarExposicao");
+      }
+      // verify the required parameter 'expoId' is set
+      if (expoId === undefined || expoId === null) {
+        throw new Error("Missing the required parameter 'expoId' when calling atualizarExposicao");
+      }
+
       let pathParams = {
         'expoId': expoId
       };
@@ -534,7 +555,7 @@ o elemento com o id informado será removido do painel.
     /**
      * Organizar uma nova exposição
      * Adiciona uma nova exposição em modo rascunho
-     * @param {module:model/NovaExposicao} body Create a new pet in the store
+     * @param {module:model/NovaExposicao} body Dados da nova exposição
      * @param {String} nome 
      * @param {String} descricao 
      * @param {module:api/ExposicaoApi~organizarExposicaoCallback} callback The callback function, accepting three arguments: error, data, response

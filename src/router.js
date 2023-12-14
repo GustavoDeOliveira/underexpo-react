@@ -1,12 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Base } from './Pages/Base';
 import { Erro } from './Pages/Erro';
-import { Explorar, loader as explorarLoader } from './Pages/Explorar';
-import { Exposicao, loader as exposicaoLoader } from './Pages/Exposicao';
-import Exposicoes from './Pages/Exposicoes';
-import { GerenciarExposicoes, loader as gerenciarExposicoesLoader } from './Pages/GerenciarExposicoes';
+import { Exposicoes } from './Pages/Exposicoes';
+import { Explorar, loader as explorarLoader } from './Pages/Exposicoes/Explorar';
+import { Exposicao, loader as exposicaoLoader } from './Pages/Exposicoes/Exposicao';
+import { EditarExposicao, loader as editarExposicaoLoader } from "./Pages/Exposicoes/EditarExposicao";
+import { GerenciarExposicoes, loader as gerenciarExposicoesLoader } from './Pages/Exposicoes/GerenciarExposicoes';
 import { Perfil } from './Pages/Perfil';
-import { EditarExposicao, loader as editarExposicaoLoader } from "./Pages/EditarExposicao";
+import { Contato, loader as contatoLoader } from "./Pages/Perfil/Contato";
 
 const router = createBrowserRouter([
     {
@@ -43,7 +44,15 @@ const router = createBrowserRouter([
         },
         {
           path: "perfil",
-          element: <Perfil />
+          element: <Perfil />,
+          children: [
+            {
+              path: "contato",
+              index: true,
+              loader: contatoLoader,
+              element: <Contato />
+            }
+          ]
         }
       ],
     },
