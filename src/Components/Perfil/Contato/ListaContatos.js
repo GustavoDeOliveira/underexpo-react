@@ -1,21 +1,19 @@
-import { Grid, Stack, Typography } from '@mui/material'
-import React from 'react'
+import { Button, Grid, Stack } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import RemoveIcon from '@mui/icons-material/Remove';
+import React from 'react';
 
-function abreviarLink(link, max) {
-  if (link && link.length > max)
-    return link.substring(0, max - 3).concat('...');
-  return link;
-}
 export const ListaContatos = (params) => {
+
   return (
     <Stack>
       {params.contatos.map(contato => (
-        <Grid container xs={12}>
-          <Grid item xs={1}>E</Grid>
-          <Grid item xs={2}>{contato.canal}</Grid>
-          <Grid item xs={3}>{contato.nome}</Grid>
-          <Grid item xs={5}>{abreviarLink(contato.link, 36)}</Grid>
-          <Grid item xs={1}>X</Grid>
+        <Grid key={contato.id} container columnSpacing={{xs: 2, md: 1}} alignItems={'center'}>
+          <Grid item xs={1}><Button onClick={(ev) => params.aoEditarContato(ev, contato)} color="primary"><EditIcon /></Button></Grid>
+          <Grid item xs={3} sx={{overflow: 'clip'}} md={2}>{contato.canal}</Grid>
+          <Grid item xs={3} sx={{overflow: 'clip'}}>{contato.nome}</Grid>
+          <Grid item xs={4} md={5} sx={{overflow: 'clip'}}>{contato.link}</Grid>
+          <Grid item xs={1} ><Button onClick={(ev) => params.aoRemoverContato(ev, contato)} color="error"><RemoveIcon /></Button></Grid>
         </Grid>
       ))}
     </Stack>

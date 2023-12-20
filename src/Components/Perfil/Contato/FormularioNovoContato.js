@@ -1,16 +1,17 @@
 import { Button, Grid, TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import LoadingIcon from '@mui/icons-material/HourglassTop';
 import React from 'react';
 
 export const FormularioNovoContato = (params) => {
-  const [canalNovoContato, setCanalNovoContato] = React.useState('');
-  const [nomeNovoContato, setNomeNovoContato] = React.useState('');
-  const [linkNovoContato, setLinkNovoContato] = React.useState('');
+  //const [canalNovoContato, setCanalNovoContato] = React.useState(params.contatoFormulario.canal);
+  //const [nomeNovoContato, setNomeNovoContato] = React.useState(params.contatoFormulario.nome);
+  //const [linkNovoContato, setLinkNovoContato] = React.useState(params.contatoFormulario.link);
   const [validando, setValidando] = React.useState(false);
   const [enviando, setEnviando] = React.useState(false);
 
   const validarNovoContato = () => {
-    return canalNovoContato && nomeNovoContato && linkNovoContato;
+    return params.contato.canal.get && params.contato.nome.get && params.contato.link.get;// canalNovoContato && nomeNovoContato && linkNovoContato;
   }
 
   const aoEnviarFormulario = (ev) => {
@@ -19,12 +20,13 @@ export const FormularioNovoContato = (params) => {
     console.log(ev);
     if (validarNovoContato()) {
       setEnviando(true);
-      params.aoAdicionarContato({canal: canalNovoContato, nome: nomeNovoContato, link: linkNovoContato})
-        .then(response => {
+      params.aoAdicionarContato(ev)
+        .then(() => {
           setValidando(false);
-          setCanalNovoContato('');
-          setNomeNovoContato('');
-          setLinkNovoContato('');
+          params.contato.id.set(0);
+          params.contato.canal.set('');
+          params.contato.nome.set('');
+          params.contato.link.set('');
         }).finally(setEnviando(false));
     } else {
       setTimeout(setValidando, 2000);
@@ -38,8 +40,9 @@ export const FormularioNovoContato = (params) => {
           fullWidth
           label="Canal"
           placeholder="Instagram"
-          error={validando && !canalNovoContato} value={canalNovoContato}
-          onChange={ev => setCanalNovoContato(ev.target.value)}
+          error={validando && !params.contato.canal.get}
+          value={params.contato.canal.get}
+          onChange={ev => params.contato.canal.set(ev.target.value)}
           />
     </Grid>
     <Grid item xs={3}>
@@ -47,9 +50,9 @@ export const FormularioNovoContato = (params) => {
           fullWidth
           label="Nome"
           placeholder="@meu.instagram"
-          error={validando && !nomeNovoContato}
-          value={nomeNovoContato}
-          onChange={ev => setNomeNovoContato(ev.target.value)}
+          error={validando && !params.contato.nome.get}
+          value={params.contato.nome.get}
+          onChange={ev => params.contato.nome.set(ev.target.value)}
           />
     </Grid>
     <Grid item xs={5}>
@@ -57,11 +60,12 @@ export const FormularioNovoContato = (params) => {
           fullWidth
           label="Link"
           placeholder="https://www.instagram.com/meu.instagram"
-          error={validando && !linkNovoContato} value={linkNovoContato}
-          onChange={ev => setLinkNovoContato(ev.target.value)}
+          error={validando && !params.contato.link.get}
+          value={params.contato.link.get}
+          onChange={ev => params.contato.link.set(ev.target.value)}
           />
     </Grid>
-    <Grid item xs={1}><Button type="submit"><AddIcon fontSize="large" /></Button></Grid>
+    <Grid item xs={1}><Button type="submit">{enviando ? <LoadingIcon fontSize="large" /> : <AddIcon fontSize="large" />}</Button></Grid>
     </Grid>
   );
 };

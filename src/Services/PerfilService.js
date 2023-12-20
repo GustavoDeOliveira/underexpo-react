@@ -20,7 +20,7 @@ function respostaPadrao(response, resolve, reject) {
   }
 }
 
-export const buscarContatosDoUsuarioAtual = async () => {
+const buscarContatosDoUsuarioAtual = async () => {
   return new Promise((resolve, reject) => {
     getApi().buscarContatos(1, 100, (err, data, res) => {
       respostaPadrao({ err, data, res }, resolve, reject);
@@ -28,10 +28,33 @@ export const buscarContatosDoUsuarioAtual = async () => {
   });
 };
 
-export const adicionarContato = async (novoContato) => {
+const adicionarContato = async (canal, nome, link) => {
   return new Promise((resolve, reject) => {
-    getApi().adicionarContato({ body: novoContato }, (err, data, res) => {
+    getApi().adicionarContato({ body: {canal, nome, link}}, (err, data, res) => {
       respostaPadrao({ err, data, res }, resolve, reject);
     });
   });
 };
+
+const atualizarContato = async (id, canal, nome, link) => {
+  return new Promise((resolve, reject) => {
+    getApi().atualizarContato(id, { body: {canal, nome, link} }, (err, data, res) => {
+      respostaPadrao({ err, data, res }, resolve, reject);
+    });
+  });
+}
+
+const removerContato = async (id) => {
+  return new Promise((resolve, reject) => {
+    getApi().removerContato(id, (err, data, res) => {
+      respostaPadrao({ err, data, res }, resolve, reject);
+    });
+  });
+}
+
+export const PerfilService = {
+  buscarContatosDoUsuarioAtual,
+  adicionarContato,
+  atualizarContato,
+  removerContato
+}
