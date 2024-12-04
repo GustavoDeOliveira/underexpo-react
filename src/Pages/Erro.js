@@ -7,6 +7,10 @@ import Footer from '../Components/Footer';
 export const Erro = () => {
   const error = useRouteError();
   console.error(error);
+  if (error.response && (error.response.statusCode === 401 || error.response.statusCode === 403)) {
+    localStorage.removeItem('key');
+    location.pathname = '/exposicoes/explorar';
+  }
   return (
     
     <Container>

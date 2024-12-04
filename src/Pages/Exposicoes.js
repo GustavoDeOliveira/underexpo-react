@@ -3,14 +3,17 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import * as React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
+import { getUserKey } from '../Services/LocalStorageService';
 
 const rotas = [
   {titulo: 'Explorar', destino: 'explorar'},
-  {titulo: 'Minhas Exposições', destino: 'gerenciar'}
+  {titulo: 'Minhas Exposições', destino: 'gerenciar'},
+  {titulo: 'Meus Painéis', destino: 'paineis'}
 ]
 
 export const Exposicoes = () => {
-  return (
+  const profile = getUserKey();
+  return profile ? (
     <div>
       <AppBar position="relative" color="secondary">
         <Toolbar>
@@ -26,5 +29,5 @@ export const Exposicoes = () => {
       </AppBar>
       <Outlet />
     </div>
-  );
+  ) : <Outlet />;
 };

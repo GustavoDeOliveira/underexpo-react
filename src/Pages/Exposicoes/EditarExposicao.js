@@ -66,7 +66,7 @@ function buscarUsuarios(chave) {
 
 function enviarConvite(expoId, destinatario) {
   const p = new Promise((resolve, reject) => {
-    perfilApi.enviarNotificacao({body: {expoId: parseInt(expoId), artista: destinatario.nome}}, (err, data, res) => {
+    perfilApi.enviarNotificacao({body: {expoId: parseInt(expoId), autorId: destinatario.id}}, (err, data, res) => {
       if (err) {
         console.log('error: %o', err);
         reject(err);
@@ -119,10 +119,13 @@ export const EditarExposicao = () => {
   const { exposicao } = useLoaderData();
 
   const [paineis, setPaineis] = React.useState(exposicao.paineis);
+  
   const [editandoTitulo, setEditandoTitulo] = React.useState(false);
   const [novoTitulo, setNovoTitulo] = React.useState(exposicao.nome);
+
   const [editandoDescricao, setEditandoDescricao] = React.useState(false);
   const [novaDescricao, setNovaDescricao] = React.useState(exposicao.descricao);
+
   const [message, setMessage] = React.useState('Operação realizada com sucesso!');
   const [alertOpen, setAlertOpen] = React.useState(false);
 

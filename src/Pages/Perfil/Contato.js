@@ -1,7 +1,7 @@
 import { Container, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { FormularioNovoContato } from '../../Components/Perfil/Contato/FormularioNovoContato';
-import { PerfilService } from '../../Services/PerfilService'
+import * as PerfilService from '../../Services/PerfilService'
 import { useLoaderData } from 'react-router-dom';
 import { ListaContatos } from '../../Components/Perfil/Contato/ListaContatos';
 
@@ -26,10 +26,14 @@ export const Contato = () => {
   };
 
   const removerContato = (ev, contato) => {
-    PerfilService.removerContato(contato.id)
-      .then(response => {
-        setContatos(contatos.filter(c=> c.id !== contato.id));
-      });
+    if (contato.id === contatoId) {
+      editarContato(ev, {id: 0, canal: '', nome: '', link: ''});
+    } else {
+      PerfilService.removerContato(contato.id)
+        .then(response => {
+          setContatos(contatos.filter(c=> c.id !== contato.id));
+        });
+    }
   };
 
   const salvarContato = (ev) => {

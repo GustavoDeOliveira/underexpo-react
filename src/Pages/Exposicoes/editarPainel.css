@@ -1,0 +1,28 @@
+#editar-titulo {
+    font-size: 36px;
+}
+
+form button:hover {
+    color: var(--mui-palette-primary-dark);
+}
+
+button.remover-elemento {
+    position: absolute;
+    right: 0;
+    bottom: 10%;
+    height: '100%';
+    color: var(--mui-palette-error-light);
+}
+
+button.remover-elemento:hover {
+    color: var(--mui-palette-error-dark);
+}
+
+div.elemento {
+    width: 100%;
+    padding: 0;
+    position: relative;
+    background-position: top;
+    background-size: cover;
+    display: inline;
+}

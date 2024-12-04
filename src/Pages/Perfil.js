@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 
 const rotas = [
   {titulo: 'Contato', destino: 'contato'},
-  {titulo: 'Obras', destino: 'obras'}
+  {titulo: 'Acervo', destino: 'acervo'}
 ]
 
 export const Perfil = () => {

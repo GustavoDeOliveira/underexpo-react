@@ -14,7 +14,7 @@ export const DialogoConfirmacao = (params) => {
             {params.titulo}
           </DialogTitle>
           <DialogContent>
-            <DialogContentText id={params.id + '-dialog-description'}>
+            <DialogContentText component="span" id={params.id + '-dialog-description'}>
               {params.mensagem}
             </DialogContentText>
           </DialogContent>

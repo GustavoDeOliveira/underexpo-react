@@ -1,18 +1,19 @@
+import RemoveIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import PreviewIcon from '@mui/icons-material/Preview';
+import UploadIcon from '@mui/icons-material/Upload';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import * as React from 'react';
 import { useLoaderData } from 'react-router-dom';
-import Cartao from '../../Components/Cartao';
+import { ListaCartoes } from '../../Components/Cartao/ListaCartoes';
 import { ExposicaoApi, PerfilApi } from '../../Services';
-import { Button, Stack, Typography } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import LoadingIcon from '@mui/icons-material/HourglassTop';
+import { Button } from '@mui/material';
 
 const api = new PerfilApi();
 const expoApi = new ExposicaoApi();
 
 const organizarExposicao = (nome, descricao, callback) => {
-  expoApi.organizarExposicao({ nome: nome, descrição: descricao }, nome, descricao, (err, data, res) => {
+  expoApi.organizarExposicao({ nome: nome, descricao: descricao }, nome, descricao, (err, data, res) => {
     if (callback) callback();
     if (err) {
       console.log('error: %o', err);
@@ -46,28 +47,21 @@ export async function loader() {
 
 export const GerenciarExposicoes = () => {
   const novaExposicao = () => {
-    setOrganizandoExposicao(true);
-    organizarExposicao('Minha Exposição', 'Adicione uma descrição!', () => setOrganizandoExposicao(false));
+    return new Promise((resolve, reject) => {
+      organizarExposicao('Minha Exposição', 'Adicione uma descrição!', () => resolve());
+    });
   }
   const [cards] = React.useState(useLoaderData().exposicoes);
-  const [organizandoExposicao, setOrganizandoExposicao] = React.useState(false);
+  const interacoes = [
+    { nome: 'visualizar', botao: id => <Button variant="contained" href={`/exposicoes/${id}`}><PreviewIcon fontSize="large" /></Button> },
+    { nome: 'editar', botao: id => <Button variant="contained" href={`/exposicoes/${id}/editar`}><EditIcon fontSize="large" /></Button> },
+    { nome: 'trocar miniatura', botao: id => <Button variant="contained" onClick={ev => console.log('trocar miniatura')}><UploadIcon fontSize="large" /></Button> },
+    { nome: 'excluir', botao: id => <Button variant="contained" className="destacado" onClick={ev => console.log('excluir exposição')}><RemoveIcon fontSize="large" /></Button> },
+  ];
+  console.log('cards: ' + cards);
   return (
-    <Container sx={{ backgroundColor: 'primary.main', py: 8 }} maxWidth="md">
-      <Grid container spacing={4}>
-        <Grid item key={0} xs={12} sm={6} md={4}>
-          <Button onClick={organizandoExposicao ? ()=>{} : novaExposicao} sx={theme => ({height: '100%', width: '100%', backgroundColor: theme.palette.primary.light, color: theme.palette.text.primary })}>
-            <Stack alignItems="center">
-              {organizandoExposicao ? <LoadingIcon fontSize="large" /> : <AddIcon fontSize="large" />}
-                <Typography variant="h5">{organizandoExposicao ? 'Organizando exposição...': 'Nova Exposição'}</Typography>
-            </Stack>
-          </Button>
-        </Grid>
-        {cards.map((card) => (
-          <Grid item key={card.id} xs={12} sm={6} md={4}>
-            <Cartao info={card} editavel />
-          </Grid>
-        ))}
-      </Grid>
+    <Container sx={{ backgroundColor: 'primary.main', py: 8 }}>
+      <ListaCartoes cards={cards} interacoes={interacoes} aoAdicionarElemento={novaExposicao} />
     </Container>
   )
 }

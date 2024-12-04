@@ -6,18 +6,21 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { RouterProvider } from "react-router-dom";
 import theme from './theme';
 import router from './router';
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const rootElement = document.getElementById('root');
 const root = ReactDOM.createRoot(rootElement);
 
 root.render(
-  <HelmetProvider>
-    <Helmet>
-      <meta name="viewport" content="initial-scale=1, width=device-width" />
-    </Helmet>
-    <CssVarsProvider theme={theme}>
-      <CssBaseline />
-      <RouterProvider router={router} />
-    </CssVarsProvider>
-  </HelmetProvider>
+  <GoogleOAuthProvider clientId='237551140245-l488soclhvsrhr607e44rjqabsqavvpa.apps.googleusercontent.com'>
+    <HelmetProvider>
+      <Helmet>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Helmet>
+      <CssVarsProvider theme={theme}>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </CssVarsProvider>
+    </HelmetProvider>
+  </GoogleOAuthProvider>
 );

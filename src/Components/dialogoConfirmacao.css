@@ -15,3 +15,8 @@ button.confirmar-critico {
 button.confirmar {
     color: var(--mui-palette-text-primary);
 }
+
+button.confirmar-destaque {
+    color: var(--mui-palette-text-primary);
+    background-color: var(--mui-palette-primary-light);
+}

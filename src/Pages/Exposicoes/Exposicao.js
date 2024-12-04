@@ -1,5 +1,5 @@
 import React from 'react'
-import { ExposicaoApi } from '../../Services/api/ExposicaoApi';
+import ExposicaoApi from '../../Services/api/ExposicaoApi';
 import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import { useLoaderData } from 'react-router-dom';
 import { TagAutor } from '../../Components/TagAutor';

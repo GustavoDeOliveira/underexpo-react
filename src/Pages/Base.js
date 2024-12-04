@@ -4,12 +4,12 @@ import { Outlet } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 
-export const Base = () => {
+export const Base = (profile, setProfile) => {
   return (
     <Container>
       <Box sx={{backgroundColor: 'background.paper'}}>
-        <Header />
-        <Outlet />
+        <Header profile={profile} setProfile={setProfile} />
+        <Outlet profile={profile} />
         <Footer />
       </Box>
     </Container>
