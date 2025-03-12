@@ -3,16 +3,16 @@ import * as React from 'react';
 import { TagAutor } from '../TagAutor';
 import { PainelBotoesOcultos } from '../PainelBotoesOcultos';
 
-export const CartaoMidia = (params) => {
+export const CartaoMidia = ({interacoes, card}) => {
   return (
     <CardMedia
       component="div"
-      sx={{pt: params.interacoes ? '0': '56.25%', position: 'relative'}}
-      image={params.card.urlMiniatura}
+      sx={{pt: interacoes ? '0': '56.25%', position: 'relative'}}
+      image={card.urlMiniatura}
     >
-      {params.interacoes
-      ? <PainelBotoesOcultos interacoes={params.interacoes} id={params.card.id} id2={params.card.expoId} />
-      : <TagAutor nome={params.card.organizador} />}
+      {interacoes
+      ? <PainelBotoesOcultos interacoes={interacoes} id={card.id} id2={card.expoId} />
+      : <TagAutor nome={card.organizador} />}
     </CardMedia>
   );
 };

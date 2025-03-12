@@ -25,11 +25,13 @@ export default class ResumoExposicao {
    * Constructs a new <code>ResumoExposicao</code>.
    * @alias module:model/ResumoExposicao
    * @class
+   * @param id {Number}
    * @param nome {String} 
    * @param urlMiniatura {String} 
    * @param organizador {String} 
    */
-  constructor(nome, urlMiniatura, organizador) {
+  constructor(id, nome, urlMiniatura, organizador) {
+    this.id = id;
     this.nome = nome;
     this.urlMiniatura = urlMiniatura;
     this.organizador = organizador;

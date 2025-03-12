@@ -109,7 +109,7 @@ Deve ser de um formato suportado pelo tipo da obra
      * @param {Number} id ID da obra a qual o arquivo pertencerá
      * @param {module:api/PerfilApi~adicionarArquivoObraCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    adicionarArquivoObra(body, id, callback) {
+    adicionarArquivoObra(body, id, contentType, callback) {
       
       let postBody = body;
       // verify the required parameter 'body' is set
@@ -135,7 +135,7 @@ Deve ser de um formato suportado pelo tipo da obra
       };
 
       let authNames = ['underexpoAuth'];
-      let contentTypes = ['image/png', 'image/jpeg', 'audio/mp3', 'audio/wav'];
+      let contentTypes = [contentType];
       let accepts = [];
       let returnType = null;
 

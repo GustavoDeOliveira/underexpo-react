@@ -154,7 +154,7 @@ export default class ExposicaoApi {
      * Callback function to receive the result of the atualizarPainel operation.
      * @callback moduleapi/ExposicaoApi~atualizarPainelCallback
      * @param {String} error Error message, if any.
-     * @param data This operation does not return a value.
+     * @param {module:model/Painel{ data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
@@ -210,7 +210,7 @@ o elemento com o id informado será removido do painel.
       let authNames = ['underexpoAuth'];
       let contentTypes = ['application/json', 'application/xml', 'application/x-www-form-urlencoded'];
       let accepts = [];
-      let returnType = null;
+      let returnType = Painel;
 
       return this.apiClient.callApi(
         '/expo/{expoId}/painel/{painelId}', 'PUT',

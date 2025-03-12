@@ -44,6 +44,7 @@ export async function loader({ params }) {
   });
 
   const painel = await p;
+  painel.elementos = painel.elementos.map((e, i) => ({...e, indice: i}));
   painel.id = params.idPainel;
   painel.expoId = params.idExposicao;
   return { painel };
@@ -76,6 +77,19 @@ export function EditarPainel() {
   const cancelarEditarTitulo = () => {
     setNovoTitulo(painel.nome);
     setEditandoTitulo(!editandoTitulo);
+  };
+
+  const salvarElementos = (elementos) => {
+    return new Promise((resolve, reject) =>
+    atualizarPainel(painel.id, painel.expoId, painel.nome, elementos)
+      .then(response => {
+        setAlertOpen(true);
+        setMessage('Painel salvo com sucesso!');
+        setTimeout(() => setAlertOpen(false), 2500);
+        painel.elementos = response.elementos
+        resolve(response);
+      }).catch(reject)
+    );
   };
 
   return (
@@ -120,7 +134,7 @@ export function EditarPainel() {
         </Grid>
         <TagAutor nome={painel.autor} sx={{ pt: '100%' }} />
       </Grid>
-      <Painel painel={painel} ativo editavel />
+      <Painel painel={painel} ativo editavel aoSalvarAlteracoes={salvarElementos} />
     </Box>
   )
 }

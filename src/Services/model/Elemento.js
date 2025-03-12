@@ -70,28 +70,28 @@ Elemento.prototype.titulo = undefined;
  */
 Elemento.TipoEnum = {
   /**
-   * value: "texto"
+   * value: "T"
    * @const
    */
-  texto: "texto",
+  texto: "T",
 
   /**
-   * value: "imagem"
+   * value: "I"
    * @const
    */
-  imagem: "imagem",
+  imagem: "I",
 
   /**
-   * value: "audio"
+   * value: "A"
    * @const
    */
-  audio: "audio",
+  audio: "A",
 
   /**
-   * value: "video"
+   * value: "V"
    * @const
    */
-  video: "video"
+  video: "V"
 };
 /**
  * tipo de elemento

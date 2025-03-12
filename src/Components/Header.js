@@ -12,6 +12,7 @@ import { buscarUsuario, criarUsuario } from '../Services/UsuarioService';
 import { getUserKey } from '../Services/LocalStorageService';
 import BotaoNotificacoes from './Notificacao/BotaoNotificacoes';
 import MenuNotificacao from './Notificacao/MenuNotificacao';
+import * as PerfilService from '../Services/PerfilService';
 
 const rotas = [
   { titulo: 'Exposições', destino: '/exposicoes/explorar' },
@@ -101,6 +102,11 @@ export default function Header() {
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    PerfilService.buscarNotificacoesDoUsuarioAtual()
+    .then(response => {
+      setNotificacoes(response);
+    });
+
   };
   const handleClose = () => {
     setAnchorEl(null);

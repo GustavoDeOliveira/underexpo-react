@@ -4,32 +4,48 @@ import { useLoaderData } from 'react-router-dom';
 import { ListaObras } from '../../Components/Perfil/Acervo/ListaObras';
 import * as PerfilService from '../../Services/PerfilService';
 
-
+const TAMANHO_PAGINA = 9;
+const buscar = async (pagina, tamanho = TAMANHO_PAGINA) => {
+  return await PerfilService.buscarAcervo(pagina, tamanho, 'todos', 'recentes');
+}
 
 export async function loader() {
-  const resposta = await PerfilService.buscarAcervo(1, 10, 'todos', 'recentes');
+  const resposta = await buscar(1, TAMANHO_PAGINA - 1);
   return { obras: resposta };
 }
 
 export const Acervo = () => {
-  const [obras, setObras] = React.useState(useLoaderData().obras);
+  const [obras, setObras] = React.useState([{id: -1}, ...useLoaderData().obras]);
+  const [carregando, setCarregando] = React.useState(false);
+  const [maisParaCarregar, setMaisParaCarregar] = React.useState(obras.length === TAMANHO_PAGINA);
+
+  const carregar = async (pagina) => {
+    if (!carregando) {
+      try {
+        setCarregando(true);
+        const novasObras = await buscar(pagina);
+        setObras([...obras, ...novasObras]);
+        setMaisParaCarregar(novasObras.length === TAMANHO_PAGINA);
+      } finally {
+        setCarregando(false);
+      }
+    }
+  }
 
   const adicionarOuAtualizarAcervo = (obra) => {
-    if (obras.find(o => obra.id)) {
-      setObras(obras.map(o => o.id === obra.id ? obra : o));
-    }
-    setObras(obras.concat(obra));
+    location.reload();
   }
 
   const adicionarObra = (ev, obra) => {
     console.log("Obra: %o", obra);
     return new Promise((resolve, reject) => {
       const obraSalvaComSucesso = data => {
+        console.log('ObraSalvaComSucesso data: %o', data);
         if (data.fileUploadPromise) {
           data.fileUploadPromise
             .then(fileUploadResponse => {
-              adicionarOuAtualizarAcervo(data.obra);
-              resolve(data.obra);
+              adicionarOuAtualizarAcervo(fileUploadResponse);
+              resolve(fileUploadResponse);
             })
             .catch(reason => reject(reason));
         } else {
@@ -50,8 +66,8 @@ export const Acervo = () => {
 
   return (
     <Container>
-        <Typography variant="h2">Acervo</Typography>
-        <ListaObras obras={obras} aoAdicionarElemento={adicionarObra} />
+      <Typography variant="h2">Acervo</Typography>
+      <ListaObras obras={obras} aoAdicionarElemento={adicionarObra} carregarMais={carregar} maisParaCarregar={maisParaCarregar} />
     </Container>
   )
 }

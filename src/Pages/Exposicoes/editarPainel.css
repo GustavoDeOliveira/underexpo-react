@@ -18,6 +18,25 @@ button.remover-elemento:hover {
     color: var(--mui-palette-error-dark);
 }
 
+button.reordenar-elemento {
+    position: absolute;
+    left: -32px;
+    height: '100%';
+    color: var(--mui-palette-main-light);
+}
+
+button.reordenar-elemento.acima {
+    top: 10%;
+}
+
+button.reordenar-elemento.abaixo {
+    bottom: 10%;
+}
+
+button.remover-elemento:hover {
+    color: var(--mui-palette-main-dark);
+}
+
 div.elemento {
     width: 100%;
     padding: 0;

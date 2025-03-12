@@ -28,6 +28,14 @@ export const buscarContatosDoUsuarioAtual = async () => {
   });
 };
 
+export const buscarNotificacoesDoUsuarioAtual = async () => {
+  return new Promise((resolve, reject) => {
+    getApi().buscarNotificacoes(1, 10, (err, data, res) => {
+      respostaPadrao({ err, data, res }, resolve, reject);
+    });
+  });
+};
+
 export const adicionarContato = async (canal, nome, link) => {
   return new Promise((resolve, reject) => {
     getApi().adicionarContato({ body: {canal, nome, link}}, (err, data, res) => {
@@ -61,6 +69,7 @@ export const buscarAcervo = async (pagina, tamanhoPagina, filtros, ordenacao) =>
 }
 
 export const adicionarObra = async (titulo, arquivo) => {
+  console.log('TIPO DO ARQUIVO: %s', arquivo.type);
   const tipo = arquivo.type.includes('image') ? 'imagem' : arquivo.type.includes('audio') ? 'audio' : '';
   return new Promise((resolve, reject) => {
     getApi().adicionarObra({body: { nome: titulo, tipo: tipo}, nome: titulo, tipo: tipo}, (err, data, res) => {
@@ -70,8 +79,9 @@ export const adicionarObra = async (titulo, arquivo) => {
       }
       else {
         console.log('data: %o', data);
+        console.log('arquivo: %o', arquivo);
         resolve({obra: data, fileUploadPromise: new Promise((resolve, reject) => {
-          getApi().adicionarArquivoObra(arquivo, data.id, (err, data, res) => {
+          getApi().adicionarArquivoObra(arquivo, data.id, arquivo.type, (err, data, res) => {
             respostaPadrao({err, data, res}, resolve, reject);
           });
         })})
@@ -82,7 +92,6 @@ export const adicionarObra = async (titulo, arquivo) => {
 
 export const atualizarObra = async (id, titulo, arquivo) => {
   console.log("Request: %d, %s, %o", id, titulo, arquivo);
-  const tipo = arquivo ? arquivo.type.includes('image') ? 'imagem' : arquivo.type.includes('audio') ? 'audio' : undefined : undefined;
   return new Promise((resolve, reject) => {
     getApi().atualizarObra(id, {body: {nome: titulo}}, (err, data, res) => {
       if (err) {
@@ -90,15 +99,16 @@ export const atualizarObra = async (id, titulo, arquivo) => {
         reject(err);
       }
       else {
-        console.log('data: %o', data);
+        console.log('AtualizarObra data: %o res: %o', data, res);
         if (arquivo) {
-          resolve({obra: data, fileUploadPromise: new Promise((resolve, reject) => {
-            getApi().adicionarArquivoObra(arquivo, id, (err, data, res) => {
-              respostaPadrao({err, data, res}, resolve, reject);
+          resolve({obra: res.body, fileUploadPromise: new Promise((resolve, reject) => {
+            getApi().adicionarArquivoObra(arquivo, id, arquivo.type, (err, data, res) => {
+              console.log('AdicionarArquivoObra data: %o res: %o', data, res);
+              respostaPadrao({err, data: res.body, res}, resolve, reject);
             });
           })})
         } else {
-          resolve({obra: data});
+          resolve({obra: res.body});
         }
       }
     });

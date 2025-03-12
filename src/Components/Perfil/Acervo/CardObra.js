@@ -3,12 +3,11 @@ import React from 'react';
 import { CartaoMidia } from '../../Cartao/CartaoMidia';
 import { CartaoConteudo } from '../../Cartao/CartaoConteudo';
 
-export const CardObra = (params) => {
-  const {obra: {url, tipo, id, nome, dataCarregamento}, interacoes} = params;
+export const CardObra = ({obra: {url, tipo, id, nome, dataCarregamento}, interacoes}) => {
   const descricao = 'Carregada em ' + dataCarregamento.toLocaleString();
   return (
     <Card className="card" sx={{height: '100%'}}>
-      <CartaoMidia miniatura={url} organizador={''} interacoes={interacoes} id={id}/>
+      <CartaoMidia organizador={''} interacoes={interacoes} card={{id, urlMiniatura: url}} />
       <CartaoConteudo nome={nome} descricao={descricao} />
     </Card>
   )

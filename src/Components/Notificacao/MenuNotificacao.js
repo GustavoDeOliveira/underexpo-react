@@ -2,11 +2,12 @@ import * as React from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Box, Button, Stack } from '@mui/material';
-import { PerfilApi } from '../../Services';
+import { ExposicaoApi, PerfilApi } from '../../Services';
 
 const api = new PerfilApi();
+const apiExpo = new ExposicaoApi();
 
-function aceitarConvite(id) {
+function aceitarConvite(id, expoId) {
   const p = new Promise((resolve, reject) => {
     console.log('request: %o', { id });
     api.aceitarConviteNotificacao(id, (err, data, res) => {
@@ -16,7 +17,8 @@ function aceitarConvite(id) {
       }
       else {
         console.log('data: %o', data);
-        resolve(data);
+        location.pathname = `/exposicoes/${expoId}/paineis/${res.body.id}/editar`;
+        resolve(res.body);
       }
     });
   });
@@ -25,9 +27,8 @@ function aceitarConvite(id) {
 
 export default function MenuNotificacao(params) {
   const aceitarNotificacao = (notificacao) => {
-    aceitarConvite(notificacao.id)
+    aceitarConvite(notificacao.id, notificacao.expo.id)
       .then(response => {
-        
       });
   };
   const {anchorEl, handleClose, open, notificacoes} = params;
@@ -69,11 +70,11 @@ export default function MenuNotificacao(params) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        {notificacoes.map(n => <MenuItem id={'notificacao-' + n.id}>
+        {notificacoes.map(n => <MenuItem key={n.id} id={'notificacao-' + n.id}>
           <Stack>
           <Box>@{n.expo.organizador} convidou você para participar da exposição '{n.expo.nome}'!</Box>
           <Stack direction="row" spacing={2} sx={{justifyContent: 'center'}}>
-            <Button variant='outlined' className='confirmar-destaque' onClick={() => aceitarConvite(n)}>Aceitar</Button>
+            <Button variant='outlined' className='confirmar-destaque' onClick={() => aceitarNotificacao(n)}>Aceitar</Button>
             <Button className='confirmar-critico'>Recusar</Button></Stack>
           </Stack>
         </MenuItem>)}
