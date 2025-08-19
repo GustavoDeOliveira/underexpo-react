@@ -8,6 +8,7 @@ import { useLoaderData } from 'react-router-dom';
 import { ListaCartoes } from '../../Components/Cartao/ListaCartoes';
 import { ExposicaoApi, PerfilApi } from '../../Services';
 import { Button } from '@mui/material';
+import { UploadArquivo } from '../../Components/Geral/UploadArquivo';
 
 const api = new PerfilApi();
 const expoApi = new ExposicaoApi();
@@ -51,17 +52,31 @@ export const GerenciarExposicoes = () => {
       organizarExposicao('Minha Exposição', 'Adicione uma descrição!', () => resolve());
     });
   }
+  const [idTrocarMiniatura, setIdTrocarMiniatura] = React.useState();
   const [cards] = React.useState(useLoaderData().exposicoes);
+  
+  const trocarMiniatura = (ev, arquivo) => new Promise((res, rej) => {
+    console.log(ev);
+    console.log(arquivo);
+    // TODO Implementar upload e troca da imagem de miniatura na API
+    setIdTrocarMiniatura(undefined);
+    res();
+  });
+
   const interacoes = [
     { nome: 'visualizar', botao: id => <Button variant="contained" href={`/exposicoes/${id}`}><PreviewIcon fontSize="large" /></Button> },
     { nome: 'editar', botao: id => <Button variant="contained" href={`/exposicoes/${id}/editar`}><EditIcon fontSize="large" /></Button> },
-    { nome: 'trocar miniatura', botao: id => <Button variant="contained" onClick={ev => console.log('trocar miniatura')}><UploadIcon fontSize="large" /></Button> },
+    { nome: 'trocar miniatura', botao: id => <Button variant="contained" onClick={ev => setIdTrocarMiniatura(id)}><UploadIcon fontSize="large" /></Button> },
     { nome: 'excluir', botao: id => <Button variant="contained" className="destacado" onClick={ev => console.log('excluir exposição')}><RemoveIcon fontSize="large" /></Button> },
   ];
   console.log('cards: ' + cards);
+
   return (
-    <Container sx={{ backgroundColor: 'primary.main', py: 8 }}>
-      <ListaCartoes cards={cards} interacoes={interacoes} aoAdicionarElemento={novaExposicao} />
-    </Container>
+    <React.Fragment>
+      <UploadArquivo aoEnviarArquivo={trocarMiniatura} id={idTrocarMiniatura} />
+      <Container sx={{ backgroundColor: 'primary.main', py: 8 }}>
+        <ListaCartoes cards={cards} interacoes={interacoes} aoAdicionarElemento={novaExposicao} />
+      </Container>
+    </React.Fragment>
   )
 }

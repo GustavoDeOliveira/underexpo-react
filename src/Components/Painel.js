@@ -240,7 +240,7 @@ export const Painel = ({ painel, ativo, editavel, aoSalvarAlteracoes }) => {
                     {elemento.titulo ? <Typography gutterBottom variant="h3" color="text.primary">{elemento.titulo}</Typography> : ''}
                     {{
                       'T': <Typography color="text.secondary">{elemento.conteudo}</Typography>,
-                      'I': <Box sx={{ backgroundImage: `url(${elemento.conteudo})` }} />,
+                      'I': <img src={elemento.conteudo} />,
                       'V': <YoutubeEmbed embedId={elemento.conteudo} />,
                       'A':
                         (elemento.conteudo
