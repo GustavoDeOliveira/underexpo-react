@@ -9,6 +9,7 @@ import { ListaCartoes } from '../../Components/Cartao/ListaCartoes';
 import { ExposicaoApi, PerfilApi } from '../../Services';
 import { Button } from '@mui/material';
 import { UploadArquivo } from '../../Components/Geral/UploadArquivo';
+import * as ExpoService from '../../Services/ExpoService';
 
 const api = new PerfilApi();
 const expoApi = new ExposicaoApi();
@@ -55,12 +56,15 @@ export const GerenciarExposicoes = () => {
   const [idTrocarMiniatura, setIdTrocarMiniatura] = React.useState();
   const [cards] = React.useState(useLoaderData().exposicoes);
   
-  const trocarMiniatura = (ev, arquivo) => new Promise((res, rej) => {
+  const trocarMiniatura = (ev, conteudo) => new Promise((res, rej) => {
     console.log(ev);
-    console.log(arquivo);
+    console.log(conteudo.arquivo);
     // TODO Implementar upload e troca da imagem de miniatura na API
-    setIdTrocarMiniatura(undefined);
-    res();
+    ExpoService.trocarMiniatura(conteudo.arquivo, idTrocarMiniatura)
+    .then(data => {
+      setIdTrocarMiniatura(undefined);
+      res(data);
+    }).catch(reason => alert(reason));
   });
 
   const interacoes = [

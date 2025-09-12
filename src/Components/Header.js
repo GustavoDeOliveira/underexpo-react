@@ -24,7 +24,7 @@ export default function Header() {
   const [profile, setProfile] = React.useState({id: getUserKey()});
 
   async function promptCriarUsuario(previousError) {
-    const username = prompt(previousError + 'Escolha um nome de usuário! Use apenas letras, números, ponto e sublinhado ( . e _ )');
+    const username = prompt(previousError ? previousError : '' + 'Escolha um nome de usuário! Use apenas letras, números, ponto e sublinhado ( . e _ )');
     if (username) {
       try {
         const data = await criarUsuario(profile.id, username);
