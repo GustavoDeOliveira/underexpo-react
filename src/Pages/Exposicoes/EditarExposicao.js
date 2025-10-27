@@ -299,7 +299,7 @@ export const EditarExposicao = () => {
           open={dialogOpen}
           titulo="Confirmar remoção"
           mensagem={`Tem certeza de que quer remover o painel "${painelARemover.nome}"? Essa ação não pode ser desfeita, e @${painelARemover.autor} perderá todo o trabalho que foi feito no painel!`} 
-          botoes={[<Button onClick={removerPainel} className="confirmar-critico">Excluir</Button>, <Button variant="contained" onClick={cancelarRemocaoPainel} className="cancelar-principal" autoFocus>Cancelar</Button>]}
+          botoes={[<Button onClick={() => removerPainel(painelARemover.id)} className="confirmar-critico">Excluir</Button>, <Button variant="contained" onClick={cancelarRemocaoPainel} className="cancelar-principal" autoFocus>Cancelar</Button>]}
         />
         : usuarioAConvidar ? 
         <DialogoConfirmacao

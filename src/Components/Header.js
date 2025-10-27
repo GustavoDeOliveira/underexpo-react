@@ -98,14 +98,18 @@ export default function Header() {
   };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [notificacoes, setNotificacoes] = React.useState([{id: 123, expo: {id: 12, painelId: 11424, nome: 'Exposição A', organizador: 'gustavo.oliveira'}}]);
+  const [notificacoes, setNotificacoes] = React.useState([]);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+
+  const atualizarNotificacoes = () => {
     PerfilService.buscarNotificacoesDoUsuarioAtual()
     .then(response => {
       setNotificacoes(response);
     });
+  }
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    atualizarNotificacoes();
 
   };
   const handleClose = () => {
@@ -139,7 +143,7 @@ export default function Header() {
         </Stack>
       </Toolbar>
     </AppBar>
-    <MenuNotificacao anchorEl={anchorEl} handleClose={handleClose} open={open} notificacoes={notificacoes} />
+    <MenuNotificacao anchorEl={anchorEl} handleClose={handleClose} open={open} notificacoes={notificacoes} atualizarNotificacoes={atualizarNotificacoes} />
     </React.Fragment>
   );
 }

@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
 export default function BotaoNotificacoes(params) {
-  const {handleClick, open} = params;
+  const {handleClick, open, avatar} = params;
   return (
     <React.Fragment>
       <Tooltip title="Account settings">
@@ -16,7 +16,7 @@ export default function BotaoNotificacoes(params) {
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
         >
-          <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+          <Avatar sx={{ width: 32, height: 32 }}>{avatar ? avatar : '?'}</Avatar>
         </IconButton>
       </Tooltip>
     </React.Fragment>
