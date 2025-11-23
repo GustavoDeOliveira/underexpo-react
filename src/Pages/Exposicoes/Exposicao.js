@@ -5,6 +5,7 @@ import { useLoaderData } from 'react-router-dom';
 import { TagAutor } from '../../Components/TagAutor';
 import './exposicao.css';
 import { Painel } from '../../Components/Painel';
+import ReportIcon from '@mui/icons-material/Report';
 
 const api = new ExposicaoApi();
 
@@ -35,8 +36,8 @@ async function carregarPainel(idExposicao, idPainel) {
         reject(err);
       }
       else {
-        console.log('data: %o', data);
-        resolve(data);
+        console.log('res: %o', res.body);
+        resolve(res.body);
       }
     })
   });
@@ -51,18 +52,17 @@ export const Exposicao = () => {
   const { exposicao } = useLoaderData();
 
   const [painelAtivo, setPainelAtivo] = React.useState(0);
-  const [paineis] = React.useState(exposicao.paineis);
-  const [carregando, setCarregando] = React.useState(false);
+  const [paineis, setPaineis] = React.useState(exposicao.paineis);
 
   React.useEffect(() => {
     if (painelAtivo) {
       const painel = paineis.find(p => p.id === painelAtivo);
       if (!painel.elementos) {
-        setCarregando(true);
         carregarPainel(exposicao.id, painelAtivo)
           .then((retornoPainel) => {
             painel.elementos = retornoPainel.elementos;
-            setCarregando(false);
+            painel.contatos = retornoPainel.contatos;
+            setPaineis(paineis.map(p => p.id === painel.id ? painel : p));
           });
       }
     }
@@ -70,11 +70,12 @@ export const Exposicao = () => {
 
   return (
     <Box>
-      <Container sx={{position: 'relative', height: '128px',pt: '16px'}}>
-        <Typography gutterBottom variant="h2" color="text.primary" align="center">{exposicao.nome}</Typography>
+      <Button className="denunciar"><Typography>Reportar</Typography><ReportIcon fontSize='large'/></Button>
+      <Container sx={{position: 'relative', pt: '16px'}}>
+        <Typography gutterBottom variant="h2" color="text" align="center">{exposicao.nome}</Typography>
         <TagAutor nome={exposicao.organizador} organizador sx={{pt: '100%'}} />
       </Container>
-      <Typography marginLeft="16px" marginRight="16px" gutterBottom variant="h4" color="text.secondary">{exposicao.descricao}</Typography>
+      <Typography marginLeft="16px" marginRight="16px" className="descricao" gutterBottom variant="h4" color="text">{exposicao.descricao}</Typography>
       <Stack>
         {paineis.map(painel => (
           <Container key={painel.id} className="painel">
@@ -87,7 +88,7 @@ export const Exposicao = () => {
                 <Typography variant="h3" className="painel titulo">{painel.nome}</Typography>
                 <TagAutor nome={painel.autor} />
             </Button>
-            <Painel painel={painel} ativo={painelAtivo === painel.id} />
+            <Painel painel={painel} ativo={painelAtivo === painel.id} sx={{marginBottom: '24px'}} />
           </Container>
         ))}
       </Stack>

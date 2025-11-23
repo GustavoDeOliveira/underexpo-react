@@ -1,0 +1,30 @@
+@media (max-width: 900px) {
+    .base-box {
+        padding-left: 4px !important;
+        padding-right: 4px !important;
+    }
+}
+
+.base-box {
+    background-color: var(--mui-palette-background-default);
+    overflow: hidden;
+    padding-left: 24px;
+    padding-right: 24px;
+    min-height: 100vh;
+}
+
+.base-container {
+    min-height: 100vh;
+}
+
+#root {
+    background-color: black;
+    min-height: 100vh;
+}
+
+button {
+    background-color: var(--mui-palette-primary-main);
+}
+button:hover {
+    background-color: var(--mui-palette-secondary-main);
+}

@@ -105,12 +105,12 @@ export default function MenuNotificacao(params) {
 
           : <MenuItem key={0} id={'notificacao-0'}>
             <Stack>
-              <Typography align='center'>
+              <Typography color="text" align='center'>
                 Nenhum convite pendente.
               </Typography>
               <Typography variant="subtitle1"
                 align="center"
-                color="text.secondary">
+                color="GrayText">
                   Que tal criar uma exposição e convidar seus amigos?
                   </Typography>
             </Stack>

@@ -12,6 +12,7 @@ import MenuNovoElemento from './Painel/MenuNovoElemento';
 import { DialogoObras } from './DialogoObras';
 import { PerfilApi } from '../Services';
 import RootRef from "@material-ui/core/RootRef";
+import { MenuContatos } from './Painel/MenuContatos';
 
 const api = new PerfilApi();
 
@@ -25,19 +26,17 @@ function pauseOthers(event) {
   }
 }
 
-export const Painel = ({ painel, ativo, editavel, aoSalvarAlteracoes }) => {
+export const Painel = ({ painel, ativo, editavel, aoSalvarAlteracoes, sx }) => {
   if (ativo) {
     if (painel.elementos) {
-      const [elementos, setElementos] = React.useState(painel.elementos.map((e, i) => ({...e, indice: i})));
+      const [contatos, setContatos] = React.useState(painel && painel.contatos ? painel.contatos : []);
+      const [anchorEl, setAnchorEl] = React.useState(null);
+      const [elementos, setElementos] = React.useState((painel && painel.elementos) ? painel.elementos.map((e, i) => ({ ...e, indice: i })) : []);
+      const [alteracoes, setAlteracoes] = React.useState(false);
+      const open = Boolean(anchorEl);
+      const [elementoAEditar, setElementoAEditar] = React.useState(null);
+      const [obras, setObras] = React.useState([]);
       if (editavel) {
-        const [alteracoes, setAlteracoes] = React.useState(false);
-
-        const [anchorEl, setAnchorEl] = React.useState(null);
-        const open = Boolean(anchorEl);
-
-        const [elementoAEditar, setElementoAEditar] = React.useState(null);
-        const [obras, setObras] = React.useState([]);
-
         const handleClick = (event) => {
           setAnchorEl(event.currentTarget);
         };
@@ -99,7 +98,7 @@ export const Painel = ({ painel, ativo, editavel, aoSalvarAlteracoes }) => {
         }
 
         const reverterAlteracoes = ev => {
-          setElementos(painel.elementos.map(e => ({...e})));
+          setElementos(painel.elementos.map(e => ({ ...e })));
           setAlteracoes(false);
         };
 
@@ -109,7 +108,7 @@ export const Painel = ({ painel, ativo, editavel, aoSalvarAlteracoes }) => {
           console.log('ELEMENTOS: %o', elementos);
           const adicionados = elementos.filter(e => e.id < 0 && !e.removido)
             .map(elemento => {
-              let novo = {titulo: elemento.titulo, conteudo: elemento.conteudo, tipo: elemento.tipo, obraId: elemento.obraId, indice: elemento.indice};
+              let novo = { titulo: elemento.titulo, conteudo: elemento.conteudo, tipo: elemento.tipo, obraId: elemento.obraId, indice: elemento.indice };
               return novo;
             });
           console.log('ADICIONADOS: %o', adicionados);
@@ -147,13 +146,13 @@ export const Painel = ({ painel, ativo, editavel, aoSalvarAlteracoes }) => {
           console.log('TODOS: %o', alteracoes);
 
           aoSalvarAlteracoes(alteracoes)
-          .then(result => {
-            setAlteracoes(false);
+            .then(result => {
+              setAlteracoes(false);
 
-            const elementos = () => result.elementos.map((e,i) => ({...e, indice: i}));
-            setElementos(elementos());
-            painel.elementos = elementos();
-          });
+              const elementos = () => result.elementos.map((e, i) => ({ ...e, indice: i }));
+              setElementos(elementos());
+              painel.elementos = elementos();
+            });
         }
 
         const popupEscolherImagem = (ev, elemento) => {
@@ -195,7 +194,7 @@ export const Painel = ({ painel, ativo, editavel, aoSalvarAlteracoes }) => {
                           'T': <TextField variant="filled" fullWidth label="Conteúdo" name="conteudo" value={elemento.conteudo} required onChange={(ev) => alterarElemento(elemento.id, elemento.titulo, ev.target.value, elemento.obraId)} align="center" sx={{ pr: '4px' }} />,
                           'I': <Fragment>
                             <Button variant='contained' disabled={elemento.removido} fullWidth onClick={ev => popupEscolherImagem(ev, elemento)}>Escolher Imagem</Button>
-                            <img src={elemento.conteudo} />
+                            <img src={elemento.conteudo} width="100%" />
                           </Fragment>,
                           'V': <Fragment>
                             <TextField label="ID de incorporação do YouTube" name="conteudo" fullWidth placeholder="Conjunto de letras no final da url do vídeo. ex: eiHVXuMjJDL" value={elemento.conteudo} onChange={(ev) => alterarElemento(elemento.id, elemento.titulo, ev.target.value, elemento.obraId)} align="center" sx={{ pr: '4px' }} />
@@ -205,10 +204,10 @@ export const Painel = ({ painel, ativo, editavel, aoSalvarAlteracoes }) => {
                             <Fragment>
                               <Button variant='contained' disabled={elemento.removido} fullWidth onClick={ev => popupEscolherAudio(ev, elemento)}>Escolher Áudio</Button>
                               {(elemento.conteudo
-                              ? <Container sx={{ pb: '32px', pt: '32px' }}>
+                                ? <Container sx={{ pb: '32px', pt: '32px' }}>
                                   <AudioPlayer onPlayed={pauseOthers} rounded width="100%" variation="primary" spacing={0} src={elemento.conteudo} />
                                 </Container>
-                              : <Typography>Não foi possível carregar o arquivo de áudio.</Typography>)}
+                                : <Typography>Não foi possível carregar o arquivo de áudio.</Typography>)}
                             </Fragment>
                         }[elemento.tipo]}
                       </Container>
@@ -229,26 +228,26 @@ export const Painel = ({ painel, ativo, editavel, aoSalvarAlteracoes }) => {
           </Container>
         );
       }
-
       return (
-        <Container sx={{ backgroundColor: 'primary.light' }}>
+        <Container color="primary" sx={style => ({ ...sx, backgroundColor: style.palette.background.paper})}>
+          {contatos.length > 0 ? <Fragment>
+          <MenuContatos contatos={contatos} anchorEl={anchorEl} onClose={ev => setAnchorEl(null)} />
+          <Button color="secondary" sx={{marginLeft: 'auto', display: 'flow'}} variant="contained" onClick={ev => setAnchorEl(ev.currentTarget)}>Entrar em Contato</Button></Fragment> : undefined}
           <Box>
             <Stack>
               {elementos.map(elemento => (
-                <Fragment>
-                  <Container key={elemento.id} className={'elemento'} sx={elemento.removido ? { backgroundColor: 'darkgrey' } : {}}>
-                    {elemento.titulo ? <Typography gutterBottom variant="h3" color="text.primary">{elemento.titulo}</Typography> : ''}
-                    {{
-                      'T': <Typography color="text.secondary">{elemento.conteudo}</Typography>,
-                      'I': <img src={elemento.conteudo} />,
-                      'V': <YoutubeEmbed embedId={elemento.conteudo} />,
-                      'A':
-                        (elemento.conteudo
-                          ? <Container sx={{ pb: '32px' }}><AudioPlayer onPlayed={pauseOthers} rounded width="100%" variation="primary" spacing={0} src={elemento.conteudo} /></Container>
-                          : <Typography>Não foi possível carregar o arquivo de áudio.</Typography>)
-                    }[elemento.tipo]}
-                  </Container>
-                </Fragment>
+                <Container key={elemento.id} className={'elemento'} sx={{marginBottom: '16px'}}>
+                  {elemento.titulo ? <Typography gutterBottom variant="h3" color="text">{elemento.titulo}</Typography> : ''}
+                  {{
+                    'T': <Typography color="text">{elemento.conteudo}</Typography>,
+                    'I': <img src={elemento.conteudo} width="100%" />,
+                    'V': <YoutubeEmbed embedId={elemento.conteudo} />,
+                    'A':
+                      (elemento.conteudo
+                        ? <Container sx={{ pb: '32px' }}><AudioPlayer onPlayed={pauseOthers} rounded width="100%" variation="primary" spacing={0} src={elemento.conteudo} /></Container>
+                        : <Typography>Não foi possível carregar o arquivo de áudio.</Typography>)
+                  }[elemento.tipo]}
+                </Container>
               ))}
             </Stack>
           </Box>

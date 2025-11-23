@@ -25,3 +25,9 @@ export const trocarMiniatura = (arquivo, expoId) => new Promise((resolve, reject
     respostaPadrao({err, data, res}, resolve, reject);
   })
 );
+
+export const trocarMiniaturaPainel = (arquivo, expoId, painelId) => new Promise((resolve, reject) =>
+  getApi().adicionarMiniaturaPainel(arquivo, expoId, painelId, (err, data, res) => {
+    respostaPadrao({err, data, res}, resolve, reject);
+  })
+);

@@ -33,13 +33,17 @@ const InputOculto = styled('input')({
   width: 1,
 });
 
-export const UploadArquivo = ({ aoEnviarArquivo, id }) => {
-  const [dialogOpen, setDialogOpen] = React.useState(false);
-  const [fileType, setFileType] = React.useState('*');
+export const UploadArquivo = ({ aoEnviarArquivo, id, tipo }) => {
+  const [dialogOpen, setDialogOpen] = React.useState(Boolean(id));
+  const [fileType, setFileType] = React.useState(tipo);
   const [arquivo, setArquivo] = React.useState(null);
   const [tamanhoArquivo, setTamanhoArquivo] = React.useState('');
   const [validando, setValidando] = React.useState(false);
   const [arquivoVisualizacao, setArquivoVisualizacao] = React.useState(null);
+
+  React.useEffect(() => {
+    setDialogOpen(Boolean(id));
+  }, [id]);
 
   const aoAlterarArquivo = (ev) => {
     if (ev.target.files.length) {
@@ -63,6 +67,7 @@ export const UploadArquivo = ({ aoEnviarArquivo, id }) => {
     setValidando(false);
     setArquivo(null);
     setTamanhoArquivo('');
+    setArquivoVisualizacao(null);
   };
 
   const validarFormulario = () => {
@@ -96,7 +101,7 @@ export const UploadArquivo = ({ aoEnviarArquivo, id }) => {
 
   return (<React.Fragment>
     {arquivoVisualizacao
-      ? <Dialog fullWidth open={arquivoVisualizacao != null} onClose={() => setArquivoVisualizacao(null)}>
+      ? <Dialog fullWidth open={arquivoVisualizacao != null} onClose={dialogOnClose}>
         <DialogTitle>{arquivoVisualizacao.nome}</DialogTitle>
         <DialogContent>
           {arquivoVisualizacao.tipo === 'I'
@@ -110,7 +115,7 @@ export const UploadArquivo = ({ aoEnviarArquivo, id }) => {
         </DialogContent>
       </Dialog>
       : ''}
-    <DialogoConfirmacao component="form" open={id} onClose={dialogOnClose} id="dialogo-enviar-arquivo" titulo="Enviar Arquivo" mensagem={conteudoFormulario} botoes={botoesFormulario} />
+    <DialogoConfirmacao component="form" open={dialogOpen} onClose={dialogOnClose} id="dialogo-enviar-arquivo" titulo="Enviar Arquivo" mensagem={conteudoFormulario} botoes={botoesFormulario} />
   </React.Fragment>
   )
 }

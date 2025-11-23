@@ -14,6 +14,7 @@
  *
  */
 import ApiClient from '../ApiClient';
+import Contato from './Contato';
 import Elemento from './Elemento';
 
 /**
@@ -50,6 +51,8 @@ export default class Painel {
         obj.autor = ApiClient.convertToType(data['autor'], 'String');
       if (data.hasOwnProperty('elementos'))
         obj.elementos = ApiClient.convertToType(data['elementos'], [Elemento]);
+      if (data.hasOwnProperty('contatos'))
+        obj.elementos = ApiClient.convertToType(data['contatos'], [Contato]);
     }
     return obj;
   }
@@ -69,4 +72,9 @@ Painel.prototype.autor = undefined;
  * @member {Array.<module:model/Elemento>} elementos
  */
 Painel.prototype.elementos = undefined;
+
+/**
+ * @member {Array.<module:model/Contato>} contatos
+ */
+Painel.prototype.contatos = undefined;
 

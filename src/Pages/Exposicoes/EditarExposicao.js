@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Alert, Box, Button, ButtonGroup, Collapse, Container, Grid, IconButton, Stack, TextField, Typography } from '@mui/material';
 import { useLoaderData } from 'react-router-dom';
 import { TagAutor } from '../../Components/TagAutor';
@@ -18,7 +18,7 @@ const perfilApi = new PerfilApi();
 function atualizarExposicao(id, titulo, descricao, paineis) {
   const p = new Promise((resolve, reject) => {
     console.log('request: %o', { id, titulo, descricao, paineis });
-    api.atualizarExposicao({nome: titulo, descricao: descricao, paineis: paineis}, titulo, descricao, paineis, id, (err, data, res) => {
+    api.atualizarExposicao({ nome: titulo, descricao: descricao, paineis: paineis }, titulo, descricao, paineis, id, (err, data, res) => {
       if (err) {
         console.log('error: %o', err);
         reject(err);
@@ -66,7 +66,7 @@ function buscarUsuarios(chave) {
 
 function enviarConvite(expoId, destinatario) {
   const p = new Promise((resolve, reject) => {
-    perfilApi.enviarNotificacao({body: {expoId: parseInt(expoId), autorId: destinatario.id}}, (err, data, res) => {
+    perfilApi.enviarNotificacao({ body: { expoId: parseInt(expoId), autorId: destinatario.id } }, (err, data, res) => {
       if (err) {
         console.log('error: %o', err);
         reject(err);
@@ -119,7 +119,7 @@ export const EditarExposicao = () => {
   const { exposicao } = useLoaderData();
 
   const [paineis, setPaineis] = React.useState(exposicao.paineis);
-  
+
   const [editandoTitulo, setEditandoTitulo] = React.useState(false);
   const [novoTitulo, setNovoTitulo] = React.useState(exposicao.nome);
 
@@ -136,7 +136,7 @@ export const EditarExposicao = () => {
   const [sugestoesConvites, setSugestoesConvites] = React.useState([]);
   const [usuarioAConvidar, setUsuarioAConvidar] = React.useState();
   const [statusBuscaUsuarios, setStatusBuscaUsuarios] = React.useState('');
-  const [convitesPendentes] = React.useState(exposicao.convites.map(c => ({nome: c.artista, id: c.id})));
+  const [convitesPendentes] = React.useState(exposicao.convites.map(c => ({ nome: c.artista, id: c.id })));
   const [conviteARemover, setConviteARemover] = React.useState();
 
   React.useEffect(() => {
@@ -157,13 +157,25 @@ export const EditarExposicao = () => {
             console.log(reason);
             setStatusBuscaUsuarios('Não foi possivel buscar usuários. Por favor, tente novamente mais tarde.');
           })
-        }, 1000);
+      }, 1000);
       retorno = () => clearTimeout(timeout);
     } else {
       setSugestoesConvites([]);
     }
     return retorno;
   }, [usuarioNovoConvite]);
+
+  useEffect(() => {
+    if (novoTitulo.length > 500) {
+      setNovoTitulo(novoTitulo.slice(0, 500));
+    }
+  }, [novoTitulo]);
+
+  useEffect(() => {
+    if (novaDescricao.length > 1000) {
+      setNovaDescricao(novaDescricao.slice(0, 1000));
+    }
+  }, [novaDescricao]);
 
   const editarTitulo = () => {
     setEditandoTitulo(!editandoTitulo);
@@ -243,12 +255,12 @@ export const EditarExposicao = () => {
 
   const convidarUsuario = () => {
     enviarConvite(exposicao.id, usuarioAConvidar)
-    .then(response => {
-      convitesPendentes.push({id: response.id, nome: usuarioAConvidar.nome});
-      setDialogOpen(false);
-      setUsuarioAConvidar(undefined);
-      setUsuarioNovoConvite('');
-    });
+      .then(response => {
+        convitesPendentes.push({ id: response.id, nome: usuarioAConvidar.nome });
+        setDialogOpen(false);
+        setUsuarioAConvidar(undefined);
+        setUsuarioNovoConvite('');
+      });
   }
 
   const confirmarRemoverConvite = (convite) => {
@@ -263,21 +275,21 @@ export const EditarExposicao = () => {
 
   const removerConvite = () => {
     removerNotificacao(conviteARemover.id)
-    .then(response => {
-      convitesPendentes.splice(convitesPendentes.indexOf(conviteARemover), 1);
-      setDialogOpen(false);
-      setConviteARemover(undefined);
-    });
+      .then(response => {
+        convitesPendentes.splice(convitesPendentes.indexOf(conviteARemover), 1);
+        setDialogOpen(false);
+        setConviteARemover(undefined);
+      });
   }
 
   return (
     <Box component="form" action="#">
-      <Collapse in={alertOpen}>
+      <Collapse in={alertOpen} sx={{position: 'fixed', top: 0, zIndex: 9999}}>
         <Alert
           action={
             <IconButton
               aria-label="close"
-              color="inherit"
+              
               size="small"
               onClick={() => {
                 setAlertOpen(false);
@@ -291,37 +303,37 @@ export const EditarExposicao = () => {
           {message}
         </Alert>
       </Collapse>
-      
-      {painelARemover ? 
+
+      {painelARemover ?
         <DialogoConfirmacao
           id="confirmar-excluir-painel"
           onClose={cancelarRemocaoPainel}
           open={dialogOpen}
           titulo="Confirmar remoção"
-          mensagem={`Tem certeza de que quer remover o painel "${painelARemover.nome}"? Essa ação não pode ser desfeita, e @${painelARemover.autor} perderá todo o trabalho que foi feito no painel!`} 
+          mensagem={`Tem certeza de que quer remover o painel "${painelARemover.nome}"? Essa ação não pode ser desfeita, e @${painelARemover.autor} perderá todo o trabalho que foi feito no painel!`}
           botoes={[<Button onClick={() => removerPainel(painelARemover.id)} className="confirmar-critico">Excluir</Button>, <Button variant="contained" onClick={cancelarRemocaoPainel} className="cancelar-principal" autoFocus>Cancelar</Button>]}
         />
-        : usuarioAConvidar ? 
-        <DialogoConfirmacao
-          id="confirmar-convidar-usuario"
-          onClose={cancelarConviteUsuario}
-          open={dialogOpen}
-          titulo="Confirmar convite"
-          mensagem={`Convidar @${usuarioAConvidar.nome}?`}
-          botoes={[<Button onClick={cancelarConviteUsuario} className="cancelar">Cancelar</Button>, <Button variant="contained" onClick={convidarUsuario} className="confirmar" autoFocus>Confirmar</Button>]}
-        />
-        : conviteARemover ? 
-        <DialogoConfirmacao
-          id="confirmar-remover-convite"
-          onClose={cancelarRemocaoConvite}
-          open={dialogOpen}
-          titulo="Cancelar convite"
-          mensagem={`Cancelar convite para @${conviteARemover.nome}?`}
-          botoes={[<Button onClick={removerConvite} className="confirmar-critico">Cancelar</Button>, <Button variant="contained" onClick={cancelarRemocaoConvite} className="cancelar-principal" autoFocus>Manter</Button>]}
-        />
-        : ''}
+        : usuarioAConvidar ?
+          <DialogoConfirmacao
+            id="confirmar-convidar-usuario"
+            onClose={cancelarConviteUsuario}
+            open={dialogOpen}
+            titulo="Confirmar convite"
+            mensagem={`Convidar @${usuarioAConvidar.nome}?`}
+            botoes={[<Button onClick={cancelarConviteUsuario} className="cancelar">Cancelar</Button>, <Button variant="contained" onClick={convidarUsuario} className="confirmar" autoFocus>Confirmar</Button>]}
+          />
+          : conviteARemover ?
+            <DialogoConfirmacao
+              id="confirmar-remover-convite"
+              onClose={cancelarRemocaoConvite}
+              open={dialogOpen}
+              titulo="Cancelar convite"
+              mensagem={`Cancelar convite para @${conviteARemover.nome}?`}
+              botoes={[<Button onClick={removerConvite} className="confirmar-critico">Cancelar</Button>, <Button variant="contained" onClick={cancelarRemocaoConvite} className="cancelar-principal" autoFocus>Manter</Button>]}
+            />
+            : ''}
 
-      <Grid container alignContent="stretch" alignItems="stretch" alignSelf="stretch" sx={{ position: 'relative', height: '128px', pt: '16px' }}>
+      <Grid container alignContent="stretch" alignItems="stretch" alignSelf="stretch" sx={{ position: 'relative', pt: '16px' }}>
         <Grid container item direction="column" xs={1}>
           {editandoTitulo
             ? <Grid item>
@@ -336,7 +348,7 @@ export const EditarExposicao = () => {
         <Grid item alignContent="stretch" alignItems="stretch" alignSelf="stretch" xs={11}>
           {editandoTitulo
             ? <TextField id="editar-titulo" variant="outlined" fullWidth label="Título" name="nome" value={novoTitulo} onChange={(ev) => setNovoTitulo(ev.target.value)} align="center" sx={{ pr: '4px' }} />
-            : <Typography gutterBottom variant="h2" color="text.primary" align="center">{exposicao.nome}</Typography>
+            : <Typography gutterBottom variant="h2" color="text" align="center">{exposicao.nome}</Typography>
           }
         </Grid>
         <TagAutor nome={exposicao.organizador} organizador sx={{ pt: '100%' }} />
@@ -352,7 +364,7 @@ export const EditarExposicao = () => {
       }
       {editandoDescricao
         ? <TextField id="editar-descricao" variant="outlined" fullWidth label="Descrição" name="descricao" value={novaDescricao} onChange={(ev) => setNovaDescricao(ev.target.value)} align="center" sx={{ pr: '4px', pl: '4px' }} />
-        : <Typography marginLeft="16px" marginRight="16px" gutterBottom variant="h4" color="text.secondary">{exposicao.descricao}</Typography>
+        : <Typography marginLeft="16px" marginRight="16px" gutterBottom variant="h4" color="text">{exposicao.descricao}</Typography>
       }
       <Stack>
         {paineis.map(painel => (
@@ -370,7 +382,7 @@ export const EditarExposicao = () => {
           </Container>
         ))}
         <Container>
-          <Typography variant="h3" align="center" className="painel titulo" sx={(theme)=>({backgroundColor: theme.palette.secondary.dark})}>NOVO PAINEL</Typography>
+          <Typography variant="h3" align="center" className="painel titulo">NOVO PAINEL</Typography>
           <TextField
             id="novo-painel"
             variant="outlined"
@@ -385,7 +397,7 @@ export const EditarExposicao = () => {
             {sugestoesConvites.map(sugestao => (
               <Button className="sugestao-convite" key={sugestoesConvites.indexOf(sugestao)} onClick={() => confirmarEnvioConvite(sugestao)} autoFocus={sugestoesConvites.indexOf(sugestao) === 0}>{sugestao.nome}</Button>
             ))}
-          </ButtonGroup> :''}
+          </ButtonGroup> : ''}
         </Container>
       </Stack>
       <Container>
@@ -396,7 +408,7 @@ export const EditarExposicao = () => {
               <Stack key={convite.id} direction="row"><Typography>{convite.nome}</Typography><Button onClick={() => confirmarRemoverConvite(convite)}>Cancelar Convite</Button></Stack>
             ))}
           </Stack>
-          : <Typography color="text.secondary">Nenhum convite pendente.</Typography>}
+          : <Typography color="secondary">Nenhum convite pendente.</Typography>}
       </Container>
     </Box>
   )

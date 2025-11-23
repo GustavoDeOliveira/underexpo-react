@@ -25,6 +25,7 @@ import NovaExposicao from '../model/NovaExposicao';
 import NovoPainel from '../model/NovoPainel';
 import Painel from '../model/Painel';
 import ResumoExposicao from '../model/ResumoExposicao';
+import ResumoPainel from '../model/ResumoPainel';
 
 /**
 * Exposicao service.
@@ -49,7 +50,7 @@ export default class ExposicaoApi {
      * Callback function to receive the result of the adicionarMiniaturaExposicao operation.
      * @callback moduleapi/ExposicaoApi~adicionarMiniaturaExposicaoCallback
      * @param {String} error Error message, if any.
-     * @param data This operation does not return a value.
+     * @param {ResumoExposicao} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
@@ -88,10 +89,67 @@ export default class ExposicaoApi {
       let authNames = ['underexpoAuth'];
       let contentTypes = ['image/png', 'image/jpeg'];
       let accepts = [];
-      let returnType = null;
+      let returnType = ResumoExposicao;
 
       return this.apiClient.callApi(
         '/expo/{expoId}/miniatura', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+    /**
+     * Callback function to receive the result of the adicionarMiniaturaPainel operation.
+     * @callback moduleapi/ExposicaoApi~adicionarMiniaturaPainelCallback
+     * @param {String} error Error message, if any.
+     * @param {ResumoPainel} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Adicionar uma imagem de miniatura a um painel
+     * Carrega uma nova imagem como miniatura para o painel
+     * @param {Object} body Imagem que será carregada como miniatura
+     * @param {Number} expoId ID da exposição cujo painel terá a miniatura atualizada
+     * @param {Number} painelId ID do painel cuja miniatura será atualizada
+     * @param {module:api/ExposicaoApi~adicionarMiniaturaPainelCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+    adicionarMiniaturaPainel(body, expoId, painelId, callback) {
+      
+      let postBody = body;
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling adicionarMiniaturaPainel");
+      }
+      // verify the required parameter 'expoId' is set
+      if (expoId === undefined || expoId === null) {
+        throw new Error("Missing the required parameter 'expoId' when calling adicionarMiniaturaPainel");
+      }
+      // verify the required parameter 'painelId' is set
+      if (painelId === undefined || painelId === null) {
+        throw new Error("Missing the required parameter 'painelId' when calling adicionarMiniaturaPainel");
+      }
+
+      let pathParams = {
+        'expoId': expoId,
+        'painelId': painelId
+      };
+      let queryParams = {
+        
+      };
+      let headerParams = {
+        
+      };
+      let formParams = {
+        
+      };
+
+      let authNames = ['underexpoAuth'];
+      let contentTypes = ['image/png', 'image/jpeg'];
+      let accepts = [];
+      let returnType = ResumoPainel;
+
+      return this.apiClient.callApi(
+        '/expo/{expoId}/painel/{painelId}/miniatura', 'PUT',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
@@ -154,7 +212,7 @@ export default class ExposicaoApi {
      * Callback function to receive the result of the atualizarPainel operation.
      * @callback moduleapi/ExposicaoApi~atualizarPainelCallback
      * @param {String} error Error message, if any.
-     * @param {module:model/Painel{ data The data returned by the service call.
+     * @param {module:model/Painel} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 

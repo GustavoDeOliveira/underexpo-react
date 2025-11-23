@@ -37,8 +37,8 @@ export async function loader({ params }) {
         reject(err);
       }
       else {
-        console.log('data: %o', data);
-        resolve(data);
+        console.log('res.body: %o', res.body);
+        resolve(res.body);
       }
     })
   });
@@ -94,12 +94,12 @@ export function EditarPainel() {
 
   return (
     <Box component="form" action="#">
-      <Collapse in={alertOpen}>
+      <Collapse in={alertOpen} sx={{position: 'fixed', top: 0, zIndex: 9999}}>
         <Alert
           action={
             <IconButton
               aria-label="close"
-              color="inherit"
+              
               size="small"
               onClick={() => {
                 setAlertOpen(false);
@@ -114,7 +114,7 @@ export function EditarPainel() {
         </Alert>
       </Collapse>
 
-      <Grid container alignContent="stretch" alignItems="stretch" alignSelf="stretch" sx={{ position: 'relative', height: '128px', pt: '16px' }}>
+      <Grid container alignContent="stretch" alignItems="stretch" alignSelf="stretch" sx={{ position: 'relative', pt: '16px' }}>
         <Grid container item direction="column" xs={1}>
           {editandoTitulo
             ? <Grid item>
@@ -129,7 +129,7 @@ export function EditarPainel() {
         <Grid item alignContent="stretch" alignItems="stretch" alignSelf="stretch" xs={11}>
           {editandoTitulo
             ? <TextField id="editar-titulo" variant="outlined" fullWidth label="Título" name="nome" value={novoTitulo} onChange={(ev) => setNovoTitulo(ev.target.value)} align="center" sx={{ pr: '4px' }} />
-            : <Typography gutterBottom variant="h2" color="text.primary" align="center">{painel.nome}</Typography>
+            : <Typography gutterBottom variant="h2" color="primary" align="center">{painel.nome}</Typography>
           }
         </Grid>
         <TagAutor nome={painel.autor} sx={{ pt: '100%' }} />

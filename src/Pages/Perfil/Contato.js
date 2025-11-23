@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from '@mui/material';
+import { Box, Container, Divider, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { FormularioNovoContato } from '../../Components/Perfil/Contato/FormularioNovoContato';
 import * as PerfilService from '../../Services/PerfilService'
@@ -63,10 +63,11 @@ export const Contato = () => {
   };
 
   return (
-    <Container>
-      <Typography variant="h2">Contato</Typography>
-      <ListaContatos contatos={contatos} aoEditarContato={editarContato} aoRemoverContato={removerContato} />
-      <FormularioNovoContato aoAdicionarContato={salvarContato} contato={contato} />
-    </Container>
+    <Box sx={{ py: 8, paddingLeft: '16px', paddingRight: '16px' }} color="primary">
+        <Typography align='center' variant="h2">Contato</Typography>
+        <ListaContatos contatos={contatos} aoEditarContato={editarContato} aoRemoverContato={removerContato} />
+        <Divider sx={{marginBottom: '16px'}} />
+        <FormularioNovoContato aoAdicionarContato={salvarContato} contato={contato} />
+    </Box>
   );
 };

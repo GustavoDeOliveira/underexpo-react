@@ -1,26 +1,56 @@
+@media (pointer: fine) {
+    button.card a, button.card button, button.card .interacao, div.card a, div.card button, div.card .interacao {
+        color: transparent;
+        background-color: transparent;
+    }
+    
+    button.card:hover a:hover, button.card:hover button:hover, button.card:hover .interacao:hover, div.card:hover a:hover, div.card:hover button:hover, div.card:hover .interacao:hover {
+        color: var(--mui-palette-primary-contrastText);
+        background-color: var(--mui-palette-secondary-main);
+    }
+
+    button.card:hover a.destacado, button.card:hover button.destacado, div.card:hover a.destacado, div.card:hover button.destacado {
+        background-color: var(--mui-palette-error-main);
+    }
+
+    button.card:hover a.destacado:hover, button.card:hover button.destacado:hover, div.card:hover a.destacado:hover, div.card:hover button.destacado:hover {
+        background-color: var(--mui-palette-error-dark);
+    }
+
+    button.card:hover a, button.card:hover button, div.card:hover a, div.card:hover button {
+        color: var(--mui-palette-secondary-contrastText);
+        background-color: var(--mui-palette-primary-main);
+    }
+}
+
 button.card a, button.card button, button.card .interacao, div.card a, div.card button, div.card .interacao {
-    color: transparent;
-    background-color: transparent;
     border-radius: 50%;
     width: 64px;
     height: 64px;
     box-shadow: none;
 }
 
-button.card:hover a:hover, button.card:hover button:hover, button.card:hover .interacao:hover, div.card:hover a:hover, div.card:hover button:hover, div.card:hover .interacao:hover {
-    color: var(--mui-palette-text-contrast);
-    background-color: var(--mui-palette-primary-dark);
-}
+@media (pointer: none),(pointer: coarse) {
+    button.card a, button.card button, button.card .interacao, div.card a, div.card button, div.card .interacao {
+        color: var(--mui-palette-secondary-main);
+        background-color: var(--mui-palette-primary-light);
+    }
 
-button.card:hover a.destacado, button.card:hover button.destacado, div.card:hover a.destacado, div.card:hover button.destacado {
-    background-color: var(--mui-palette-error-main);
-}
+    button.card a, button.card button, button.card .interacao, div.card a, div.card button, div.card .interacao {
+        color: var(--mui-palette-primary-contrastText);
+        background-color: var(--mui-palette-secondary-main);
+    }
 
-button.card:hover a.destacado:hover, button.card:hover button.destacado:hover, div.card:hover a.destacado:hover, div.card:hover button.destacado:hover {
-    background-color: var(--mui-palette-error-dark);
-}
+    button.card a.destacado, button.card button.destacado, div.card a.destacado, div.card button.destacado {
+        background-color: var(--mui-palette-error-main);
+    }
 
-button.card:hover a, button.card:hover button, div.card:hover a, div.card:hover button {
-    color: var(--mui-palette-text-secondary);
-    background-color: var(--mui-palette-primary-light);
+    button.card a.destacado, button.card button.destacado, div.card a.destacado, div.card button.destacado {
+        background-color: var(--mui-palette-error-dark);
+    }
+
+    button.card a, button.card button, div.card a, div.card button {
+        color: var(--mui-palette-secondary-contrastText);
+        background-color: var(--mui-palette-primary-main);
+    }
 }

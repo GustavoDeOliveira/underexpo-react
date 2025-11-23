@@ -15,6 +15,10 @@ import AudioPlayer from 'material-ui-audio-player'
 import './listaObras.css'
 import InfiniteScroll from 'react-infinite-scroller'
 import { Carregamento } from '../../Geral/Carregamento'
+import { PerfilApi } from '../../../Services'
+import * as PerfilService from '../../../Services/PerfilService';
+
+const api = new PerfilApi();
 
 const audioMimeTypes = 'audio/mp3,audio/wav,audio/flac'
 const imageMimeTypes = 'image/png,image/jpeg,image/jpg,image/bmp'
@@ -70,30 +74,46 @@ const aoClicarEmPausarAudio = (ev) => {
   ev.target.currentTime = 0;
 }
 
+async function removerObra(id) {
+  return new Promise((resolve, reject) => {
+    api.removerObra(id, (err, data, res) => {
+      if (err) {
+        console.log('error: %o', err);
+        reject(err);
+      }
+      else {
+        console.log('data: %o', data);
+        resolve(data);
+      }
+    });
+  });
+}
+
 const CardNovaObra = ({ adicionandoElemento, dialogoAdicionarElemento }) => adicionandoElemento ?
-  (<ButtonGroup sx={{ height: '100%', width: '100%' }}>
-    <Button disabled sx={theme => ({ height: '100%', width: '100%', backgroundColor: theme.palette.primary.light, color: theme.palette.text.primary })}>
+  (<ButtonGroup className="card-nova-obra" sx={{ height: '100%', width: '100%' }}>
+    <Button disabled sx={theme => ({ height: '100%', width: '100%' })}>
       <Stack alignItems="center">
         <LoadingIcon fontSize="large" />
         <Typography variant="h5">Enviando obra...</Typography>
       </Stack>
     </Button>
   </ButtonGroup>) :
-  (<ButtonGroup sx={{ height: '100%' }}>
-    <Button onClick={() => dialogoAdicionarElemento(imageMimeTypes)} sx={theme => ({ height: '100%', width: '100%', backgroundColor: theme.palette.primary.light, color: theme.palette.text.primary })}>
+  (<ButtonGroup className="card-nova-obra" sx={{ height: '100%' }}>
+    <Button onClick={() => dialogoAdicionarElemento(imageMimeTypes)} sx={theme => ({ height: '100%', width: '100%' })}>
       <Stack alignItems="center">
         <AddIcon fontSize="large" />
         <Typography variant="h5">Enviar imagem</Typography>
       </Stack>
     </Button>
-    <Button onClick={() => dialogoAdicionarElemento(audioMimeTypes)} sx={theme => ({ height: '100%', width: '100%', backgroundColor: theme.palette.primary.light, color: theme.palette.text.primary })}>
+    <Button onClick={() => dialogoAdicionarElemento(audioMimeTypes)} sx={theme => ({ height: '100%', width: '100%' })}>
       <Stack alignItems="center">
         <AddIcon fontSize="large" />
         <Typography variant="h5">Enviar áudio</Typography>
       </Stack>
     </Button>
   </ButtonGroup>);
-export const ListaObras = ({ aoAdicionarElemento, obras, carregarMais, maisParaCarregar }) => {
+  
+export const ListaObras = ({ obrasLoader, buscar, tamanhoPagina }) => {
   const [adicionandoElemento, setAdicionandoElemento] = React.useState(false);
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [fileType, setFileType] = React.useState('*');
@@ -103,6 +123,52 @@ export const ListaObras = ({ aoAdicionarElemento, obras, carregarMais, maisParaC
   const [tamanhoArquivo, setTamanhoArquivo] = React.useState('');
   const [validando, setValidando] = React.useState(false);
   const [arquivoVisualizacao, setArquivoVisualizacao] = React.useState(null);
+  const [obraARemover, setObraARemover] = React.useState();
+  const [obras, setObras] = React.useState([{id: -1}, ...obrasLoader]);
+  const [carregando, setCarregando] = React.useState(false);
+  const [maisParaCarregar, setMaisParaCarregar] = React.useState(obras.length === tamanhoPagina);
+
+  const carregarMais = async (pagina) => {
+    if (!carregando) {
+      try {
+        setCarregando(true);
+        const novasObras = await buscar(pagina);
+        setObras([...obras, ...novasObras]);
+        setMaisParaCarregar(novasObras.length === tamanhoPagina);
+      } finally {
+        setCarregando(false);
+      }
+    }
+  }
+
+  const adicionarOuAtualizarAcervo = (obra) => {
+    location.reload();
+  }
+
+  const adicionarObra = (ev, obra) => {
+    return new Promise((resolve, reject) => {
+      const obraSalvaComSucesso = data => {
+        if (data.fileUploadPromise) {
+          data.fileUploadPromise
+            .then(fileUploadResponse => {
+              adicionarOuAtualizarAcervo(fileUploadResponse);
+              resolve(fileUploadResponse);
+            })
+            .catch(reason => reject(reason));
+        } else {
+          adicionarOuAtualizarAcervo(data.obra);
+          resolve(data.obra);
+        };
+      };
+      if (obra.id) {
+        PerfilService.atualizarObra(obra.id, obra.titulo, obra.arquivo)
+          .then(obraSalvaComSucesso).catch(reason => reject(reason));
+      } else {
+        PerfilService.adicionarObra(obra.titulo, obra.arquivo)
+          .then(obraSalvaComSucesso).catch(reason => reject(reason));
+      }
+    });
+  }
 
   const aoAlterarArquivo = (ev) => {
     if (ev.target.files.length) {
@@ -135,7 +201,7 @@ export const ListaObras = ({ aoAdicionarElemento, obras, carregarMais, maisParaC
     obra.tipo === 'A'
       ? { nome: 'reproduzir', botao: id => <Button variant="contained" onClick={aoClicarEmReproduzirAudio}><audio src={obra.url} onPause={aoClicarEmPausarAudio} hidden /><ListenIcon fontSize="large" /></Button> }
       : { nome: 'visualizar', botao: id => <Button variant="contained" onClick={() => setArquivoVisualizacao(obra)}><PreviewIcon fontSize="large" /></Button> },
-    { nome: 'excluir', botao: id => <Button variant="contained" className="destacado"><RemoveIcon fontSize="large" /></Button> },
+    { nome: 'excluir', botao: id => <Button variant="contained" onClick={() => dialogoExcluirObra(id)} className="destacado"><RemoveIcon fontSize="large" /></Button> },
     { nome: 'editar', botao: id => <Button variant="contained" onClick={() => editarObra(obra)}><EditIcon fontSize="large" /></Button> },
   ];
 
@@ -157,7 +223,7 @@ export const ListaObras = ({ aoAdicionarElemento, obras, carregarMais, maisParaC
     ev.preventDefault();
     if (validarFormulario()) {
       setAdicionandoElemento(true);
-      aoAdicionarElemento(ev, { id: idObraAEditar, titulo: nomeNovaObra, arquivo: arquivo })
+      adicionarObra(ev, { id: idObraAEditar, titulo: nomeNovaObra, arquivo: arquivo })
         .finally(() => {
           console.log(arquivo);
           setAdicionandoElemento(false);
@@ -165,6 +231,21 @@ export const ListaObras = ({ aoAdicionarElemento, obras, carregarMais, maisParaC
         });
     }
   };
+
+  const dialogoExcluirObra = (id) => {
+    setObraARemover(obras.find(c => c.id === id));
+  };
+
+  const cancelarRemocaoObra = () => setObraARemover(undefined);
+
+  const confirmarRemoverObra = () => {
+    if (obraARemover) {
+      removerObra(obraARemover.id, obraARemover.expoId)
+      .then(data => {
+        setObras(obras.filter(c => c.id !== obraARemover.id));
+      }).finally(() => setObraARemover(undefined));
+    }
+  }
 
   const conteudoFormulario = <Stack>
     <Button component="label" variant="contained" sx={(theme) => !idObraAEditar && validando && !arquivo ? { color: theme.palette.error.main } : {}} startIcon={<UploadIcon />}>
@@ -197,7 +278,17 @@ export const ListaObras = ({ aoAdicionarElemento, obras, carregarMais, maisParaC
       </Dialog>
       : ''}
     <DialogoConfirmacao component="form" open={dialogOpen} onClose={dialogOnClose} id="dialogo-enviar-arquivo" titulo="Enviar Obra" mensagem={conteudoFormulario} botoes={botoesFormulario} />
-    <Container>
+    {obraARemover ?
+        <DialogoConfirmacao
+          id="confirmar-excluir-obra"
+          onClose={cancelarRemocaoObra}
+          open={obraARemover}
+          titulo="Confirmar remoção"
+          mensagem={`Tem certeza de que quer remover a obra "${obraARemover.nome}"? Essa ação não pode ser desfeita e elementos de painéis contendo a obra serão removidos!`}
+          botoes={[<Button onClick={() => confirmarRemoverObra()} className="confirmar-critico">Excluir</Button>, <Button variant="contained" onClick={cancelarRemocaoObra} className="cancelar-principal" autoFocus>Cancelar</Button>]}
+        />
+      :''}
+    <Box color="primary">
       <InfiniteScroll
         pageStart={1}
         loadMore={carregarMais}
@@ -216,7 +307,7 @@ export const ListaObras = ({ aoAdicionarElemento, obras, carregarMais, maisParaC
           ))}
         </Grid>
       </InfiniteScroll>
-    </Container>
+    </Box>
   </React.Fragment>
   )
 }

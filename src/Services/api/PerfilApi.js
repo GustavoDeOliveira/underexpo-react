@@ -276,7 +276,7 @@ Deve ser de um formato suportado pelo tipo da obra
       };
 
       let authNames = ['underexpoAuth'];
-      let contentTypes = ['aplication/json'];
+      let contentTypes = ['application/json'];
       let accepts = [];
       let returnType = null;
 
@@ -422,7 +422,7 @@ Deve ser de um formato suportado pelo tipo da obra
         
       };
 
-      let authNames = [];
+      let authNames = ['underexpoAuth'];
       let contentTypes = [];
       let accepts = ['application/json', 'application/xml'];
       let returnType = [Contato];

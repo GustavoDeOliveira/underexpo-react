@@ -1,22 +1,49 @@
 button.cancelar-principal {
-    color: var(--mui-palette-text-secondary);
+    color: var(--mui-palette-primary-contrastText);
     background-color: var(--mui-palette-primary-light);
 }
 
 button.cancelar-principal:hover {
-    color: var(--mui-palette-text-contrast);
-    background-color: var(--mui-palette-primary-dark);
+    color: var(--mui-palette-secondary-contrastText);
+    background-color: var(--mui-palette-secondary-light);
+}
+
+button.cancelar {
+    color: var(--mui-palette-primary-contrastText);
+    background-color: transparent;
+}
+
+button.cancelar:hover {
+    color: var(--mui-palette-secondary-contrastText);
+    background-color: var(--mui-palette-secondary-light);
 }
 
 button.confirmar-critico {
     color: var(--mui-palette-error-light);
+    background-color: transparent;
+}
+
+button.confirmar-critico:hover {
+    color: var(--mui-palette-error-light);
+    background-color: var(--mui-palette-secondary-light);
 }
 
 button.confirmar {
-    color: var(--mui-palette-text-primary);
+    color: var(--mui-palette-primary-contrastText);
+    background-color: var(--mui-palette-primary-main);
+}
+
+button.confirmar:hover {
+    color: var(--mui-palette-primary-contrastText);
+    background-color: var(--mui-palette-secondary-main);
 }
 
 button.confirmar-destaque {
-    color: var(--mui-palette-text-primary);
+    color: var(--mui-palette-primary-contrastText);
     background-color: var(--mui-palette-primary-light);
+}
+
+button.confirmar-destaque:hover {
+    color: var(--mui-palette-primary-contrastText);
+    background-color: var(--mui-palette-secondary-light);
 }

@@ -13,7 +13,7 @@ export const TagAutor = (params) => {
       textTransform: 'none',
       backgroundColor: 'primary.light'
     }}>
-      <Typography variant="body1" color="text.primary" textAlign="right">
+      <Typography variant="body1" color="primary.contrastText" textAlign="right">
         {prefixo}{params.nome}
       </Typography>
     </Box>

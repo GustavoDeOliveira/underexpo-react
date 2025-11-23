@@ -3,7 +3,7 @@
 }
 
 form button:hover {
-    color: var(--mui-palette-primary-dark);
+    color: var(--mui-palette-primary-contrastText);
 }
 
 button.remover-painel {
@@ -19,6 +19,5 @@ button.remover-painel:hover {
 }
 
 button.sugestao-convite {
-    color: var(--mui-palette-text-primary);
     text-transform: none;
 }

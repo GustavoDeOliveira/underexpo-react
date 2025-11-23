@@ -1,4 +1,4 @@
-import Container from '@mui/material/Container';
+import Box from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import * as React from 'react';
 import { useLoaderData } from 'react-router-dom';
@@ -39,7 +39,7 @@ export const Explorar = () => {
       setCards(exposicoes);
   }, [page]);
   return (
-    <Container sx={theme => ({ backgroundColor: theme.palette.primary.main, py: 8 })}>
+    <Box sx={{ py: 8 }}>
       <Grid container spacing={4}>
         {cards.map((card) => (
           <Grid item key={card.id} xs={12} sm={6} md={4}>
@@ -47,6 +47,6 @@ export const Explorar = () => {
           </Grid>
         ))}
       </Grid>
-    </Container>
+    </Box>
   );
 }

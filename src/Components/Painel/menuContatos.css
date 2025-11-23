@@ -1,0 +1,19 @@
+.menu-contatos .contato {
+    width: 100%;
+}
+
+.menu-contatos a {
+    color: var(--mui-palette-secondary-contrastText);
+}
+
+.menu-contatos p.canal {
+    font-weight: bold;
+    color: var(--mui-palette-primary-contrastText);
+    display: inline;
+}
+
+.menu-contatos p.nome {
+    color: var(--mui-palette-secondary-contrastText);
+    font-weight: normal;
+    display: inline;
+}

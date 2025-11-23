@@ -1,21 +1,69 @@
 button.painel.comprimido:hover {
-    height: 160px;
+    padding-bottom: 24px;
+    display: inline-block;
+    background-color: dimgray;
 }
 
 button.painel.comprimido {
-    transition: height .5s;
+    padding-bottom: 0;
+    transition: padding-bottom .5s;
+    background-color: dimgray;
 }
 
 button.painel {
-    height: 96px;
+    margin-bottom: 4px;
     width: 100%;
     padding: 0;
     position: 'relative';
     background-position: top;
     background-size: cover;
+    display: inline-block;
+    color: white;
+    background-color: dimgray;
+    padding-bottom: 24px;
+}
+button.painel:hover {
+    color: white;
+    background-color: dimgray;
+}
+
+button.denunciar {
+    margin-top: -56px;
+    display: flex;
+    justify-content: flex-end;
+    float: right;
+    width: 136px;
+}
+@media (max-width: 520px) {
+    button.denunciar {
+        margin-top: 0;
+        float: none;
+    }
+    button.denunciar > p {
+        width: 100%;
+        margin-right: 0;
+    }
+
+}
+
+button.denunciar > svg {
+    color: var(--mui-palette-error-main);
+    margin-right: 0;
+}
+button.denunciar > p {
+    color: var(--mui-palette-error-main);
+    max-width: 0;
+    overflow: hidden;
+    transition: max-width 0.5s, margin-right 0.5s;
+    margin-right: -8px;
+}
+button.denunciar:hover > p {
+    max-width: 100%;
+    margin-right: 0;
+    transition: max-width 0.5s, margin-right 0.5s;
 }
 
 .painel.titulo {
-    text-shadow: 2px 2px 4px black;
-    color: var(--mui-palette-text-contrast)
+    text-shadow: 4px 4px 6px black;
+    color: white;
 }

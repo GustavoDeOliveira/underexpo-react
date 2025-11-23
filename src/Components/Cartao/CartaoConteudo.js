@@ -1,18 +1,14 @@
+import './cartao.css';
 import { Box } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import * as React from 'react';
+import { TextoResumido } from '../Geral/TextoResumido';
 
-export const CartaoConteudo = (params) => {
+export const CartaoConteudo = ({ nome, descricao }) => {
   return (
-    <Box sx={theme => ({backgroundColor: theme.palette.primary.light, height: '100%'})}>
-      <CardContent sx={{ flexGrow: 1, maxHeight: '200px'}}>
-        <Typography gutterBottom variant="h5" component="h2">
-          {params.nome}
-        </Typography>
-        <Typography sx={{overflow: 'hidden'}}>
-          {params.descricao}
-        </Typography>
+    <Box className="cartao conteudo" color="primary">
+      <CardContent>
+        <TextoResumido texto={nome} props={{gutterBottom: true, variant: "h5", component: "h2", className: "titulo"}} />
+        <TextoResumido texto={descricao} props={{className: "descricao"}} />
       </CardContent>
     </Box>
   );
