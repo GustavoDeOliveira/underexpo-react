@@ -5,7 +5,7 @@ import Footer from '../Components/Footer';
 
 export const Erro = () => {
   const error = useRouteError();
-  console.error(error);
+  console.error('API ERROR %o', error);
   switch (error.status) {
     case 401:
     case 403:

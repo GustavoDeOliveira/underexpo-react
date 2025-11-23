@@ -1,7 +1,6 @@
-import { Box, Button, Container, Divider, Input, Stack, styled, TextField, Typography } from '@mui/material';
+import { Box, Button, Container, Divider, IconButton, Input, Stack, styled, TextField, Typography } from '@mui/material';
 import React, { Fragment } from 'react';
 import YoutubeEmbed from './YoutubeEmbed';
-import AudioPlayer from 'material-ui-audio-player';
 import RemoveIcon from '@mui/icons-material/Delete';
 import UndoIcon from '@mui/icons-material/Undo';
 import AddIcon from '@mui/icons-material/Add';
@@ -11,20 +10,10 @@ import DownwardIcon from '@mui/icons-material/ArrowDownward';
 import MenuNovoElemento from './Painel/MenuNovoElemento';
 import { DialogoObras } from './DialogoObras';
 import { PerfilApi } from '../Services';
-import RootRef from "@material-ui/core/RootRef";
 import { MenuContatos } from './Painel/MenuContatos';
+import { AudioPlayer } from './Geral/AudioPlayer';
 
 const api = new PerfilApi();
-
-function pauseOthers(event) {
-  const audio_elements = document.getElementsByTagName("audio")
-  for (let i = 0; i < audio_elements.length; i++) {
-    const audio_element = audio_elements[i];
-    if (audio_element !== event.target) {
-      audio_element.pause();
-    }
-  }
-}
 
 export const Painel = ({ painel, ativo, editavel, aoSalvarAlteracoes, sx }) => {
   if (ativo) {
@@ -152,6 +141,11 @@ export const Painel = ({ painel, ativo, editavel, aoSalvarAlteracoes, sx }) => {
               const elementos = () => result.elementos.map((e, i) => ({ ...e, indice: i }));
               setElementos(elementos());
               painel.elementos = elementos();
+            }).catch(reason => {
+              console.error('REASON %o', reason);
+              if (reason.message && reason.message === 'Unauthorized') {
+                location.pathname = '/exposicoes/';
+              }
             });
         }
 
@@ -178,17 +172,17 @@ export const Painel = ({ painel, ativo, editavel, aoSalvarAlteracoes, sx }) => {
         }
         const ref = React.createRef();
         return (
-          <Container sx={{ backgroundColor: 'primary.light' }}>
+          <Container>
             {elementoAEditar ? <DialogoObras id={'editar-painel'} element={elementoAEditar} onClose={fecharDialogoObras} open={Boolean(elementoAEditar)} works={obras} /> : undefined}
             <Box>
               <Stack>
                 {elementos.map(elemento => (
-                  <Fragment>
+                  <Fragment key={elemento.id}>
                     <Divider variant='middle' sx={{ pb: '4px' }} />
                     <Container key={elemento.id} className={'elemento'} >
-                      <Button className="reordenar-elemento acima" disabled={elemento.removido} onClick={() => !elemento.removido ? reordenarElemento(elemento, -1) : undefined}><UpwardIcon fontSize='large' /></Button>
-                      <Button className="reordenar-elemento abaixo" disabled={elemento.removido} onClick={() => !elemento.removido ? reordenarElemento(elemento, 1) : undefined}><DownwardIcon fontSize='large' /></Button>
-                      <Container sx={elemento.removido ? { backgroundColor: 'darkgrey', pointerEvents: 'none' } : {}}>
+                      <IconButton className="reordenar-elemento acima" disabled={elemento.removido} onClick={() => !elemento.removido ? reordenarElemento(elemento, -1) : undefined}><UpwardIcon fontSize='large' /></IconButton>
+                      <IconButton className="reordenar-elemento abaixo" disabled={elemento.removido} onClick={() => !elemento.removido ? reordenarElemento(elemento, 1) : undefined}><DownwardIcon fontSize='large' /></IconButton>
+                      <Container sx={style => (elemento.removido ? { backgroundColor: style.palette.action.disabledBackground, pointerEvents: 'none' } : {})}>
                         <TextField variant="filled" label="Título" name="titulo" value={elemento.titulo} fullWidth onChange={(ev) => alterarElemento(elemento.id, ev.target.value, elemento.conteudo, elemento.obraId)} align="center" sx={{ pr: '4px' }} />
                         {{
                           'T': <TextField variant="filled" fullWidth label="Conteúdo" name="conteudo" value={elemento.conteudo} required onChange={(ev) => alterarElemento(elemento.id, elemento.titulo, ev.target.value, elemento.obraId)} align="center" sx={{ pr: '4px' }} />,
@@ -205,7 +199,7 @@ export const Painel = ({ painel, ativo, editavel, aoSalvarAlteracoes, sx }) => {
                               <Button variant='contained' disabled={elemento.removido} fullWidth onClick={ev => popupEscolherAudio(ev, elemento)}>Escolher Áudio</Button>
                               {(elemento.conteudo
                                 ? <Container sx={{ pb: '32px', pt: '32px' }}>
-                                  <AudioPlayer onPlayed={pauseOthers} rounded width="100%" variation="primary" spacing={0} src={elemento.conteudo} />
+                                  <AudioPlayer src={elemento.conteudo} />
                                 </Container>
                                 : <Typography>Não foi possível carregar o arquivo de áudio.</Typography>)}
                             </Fragment>
@@ -217,13 +211,22 @@ export const Painel = ({ painel, ativo, editavel, aoSalvarAlteracoes, sx }) => {
                     </Container>
                   </Fragment>
                 ))}
-                <Button variant='contained' onClick={e => handleClick(e)}><Stack><Typography>Adicionar Elemento</Typography><AddIcon /></Stack></Button>
+                <Button variant='contained' onClick={e => handleClick(e)}><AddIcon /><Typography>Adicionar Elemento</Typography></Button>
               </Stack>
             </Box>
-            {alteracoes ? <Container sx={{ position: 'fixed', right: '0', bottom: '0' }}>
-              <Button variant='contained' onClick={reverterAlteracoes}>Reverter Alteracoes</Button>
-              <Button variant='contained' onClick={salvarAlteracoes}>Salvar Alteracoes</Button>
-            </Container> : undefined}
+            {alteracoes ? <Box sx={{
+                alignContent: 'flex-end',
+                p: 2,
+                display: 'flex',
+                position: 'fixed',
+                right: 0,
+                left: 'auto',
+                top: 64,
+                zIndex: 99999
+              }}>
+              <Button variant='contained' onClick={reverterAlteracoes}>Reverter Alterações</Button>
+              <Button variant='contained' onClick={salvarAlteracoes}>Salvar Alterações</Button>
+            </Box> : undefined}
             <MenuNovoElemento anchorEl={anchorEl} handleClose={handleClose} open={open} />
           </Container>
         );
@@ -244,8 +247,7 @@ export const Painel = ({ painel, ativo, editavel, aoSalvarAlteracoes, sx }) => {
                     'V': <YoutubeEmbed embedId={elemento.conteudo} />,
                     'A':
                       (elemento.conteudo
-                        ? <Container sx={{ pb: '32px' }}><AudioPlayer onPlayed={pauseOthers} rounded width="100%" variation="primary" spacing={0} src={elemento.conteudo} /></Container>
-                        : <Typography>Não foi possível carregar o arquivo de áudio.</Typography>)
+                        ? <Container sx={{ pb: '32px' }}><AudioPlayer src={elemento.conteudo} /></Container>                        : <Typography>Não foi possível carregar o arquivo de áudio.</Typography>)
                   }[elemento.tipo]}
                 </Container>
               ))}

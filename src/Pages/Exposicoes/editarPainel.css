@@ -3,7 +3,8 @@
 }
 
 form button:hover {
-    color: var(--mui-palette-primary-dark);
+    color: var(--mui-palette-primary-contrastText);
+    background-color: var(--mui-palette-primary-light);
 }
 
 button.remover-elemento {

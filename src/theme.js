@@ -1,6 +1,6 @@
 import React from 'react';
 import { red } from '@mui/material/colors';
-import { createTheme, experimental_extendTheme as extendTheme } from '@mui/material/styles';
+import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import { Link as RouterLink, MemoryRouter } from 'react-router-dom';
 import { StaticRouter } from 'react-router-dom/server';
@@ -35,61 +35,66 @@ Router.propTypes = {
   children: PropTypes.node,
 };
 
-const getTheme = (isDarkMode) =>
-  extendTheme({
+const lightPalette = {
+  primary: {
+    main: '#F7D4BC',
+  },
+  secondary: {
+    main: '#FAE3E3',
+  },
+  text: {
+    primary: '#1e1e1e',
+    secondary: '#1e1e1e',
+    disabled: '#666666',
+  },
+  background: {
+    default: '#F8F1F6',
+    paper: '#fff'
+  }
+};
+
+const darkPalette = {
+  primary: {
+    main: '#4B1B2E',
+  },
+  secondary: {
+    main: '#92567B',
+  },
+  text: {
+    primary: '#ffffff',
+    secondary: '#dddddd',
+    disabled: '#777',
+  },
+  background: {
+    default: '#121212',
+    paper: '#1e1e1e',
+  }
+};
+
+const componentSettings = {
+  MuiLink: {
+    defaultProps: {
+      component: LinkBehavior,
+    },
+  },
+  MuiButtonBase: {
+    defaultProps: {
+      LinkComponent: LinkBehavior,
+    },
+  },
+};
+
+const getTheme = (isDarkMode) => extendTheme({
     colorSchemes: {
       light: {
-        palette: {
-          primary: {
-            main: '#F7D4BC',
-          },
-          secondary: {
-            main: '#FAE3E3',
-          },
-          text: {
-            primary: '#1e1e1e',
-            secondary: '#1e1e1e',
-            disabled: '#666666',
-          },
-          background: {
-            default: '#F8F1F6',
-            paper: '#fff'
-          }
-        },
+        palette: lightPalette
       },
       dark: {
-        palette: {
-          primary: {
-            main: '#4B1B2E',
-          },
-          secondary: {
-            main: '#92567B',
-          },
-          text: {
-            primary: '#ffffff',
-            secondary: '#dddddd',
-            disabled: '#777',
-          },
-          background: {
-            default: '#121212',
-            paper: '#1e1e1e',
-          }
-        },
+        palette: darkPalette,
       },
     },
 
-    components: {
-    MuiLink: {
-      defaultProps: {
-        component: LinkBehavior,
-      },
-    },
-    MuiButtonBase: {
-      defaultProps: {
-        LinkComponent: LinkBehavior,
-      },
-    },
-  },
+    components: componentSettings,
 
     // Mantém modo coerente entre MUI5 e MUI6
     cssVarPrefix: 'mui',

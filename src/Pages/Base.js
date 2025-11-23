@@ -1,5 +1,6 @@
 import './base.css';
-import { Box, Container, CssBaseline, Experimental_CssVarsProvider as CssVarsProvider, useMediaQuery } from '@mui/material';
+import { Box, Container, CssBaseline, useMediaQuery } from '@mui/material';
+import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles';
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Footer from '../Components/Footer';
@@ -13,6 +14,10 @@ export const Base = (profile, setProfile) => {
   if (location.pathname === '/perfil' || location.pathname === '/perfil/') {
     location.replace('/exposicoes/');
   }
+  console.log('PROFILE %o', profile);
+  if (!profile.id && !location.pathname.match(/\/exposicoes\/?[0-9]?/i)) {
+    location.replace('/exposicoes/');
+  }
 
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = getTheme(prefersDarkMode);
@@ -23,9 +28,9 @@ export const Base = (profile, setProfile) => {
       <Container disableGutters className="base-container">
         <Header profile={profile} setProfile={setProfile} />
         <Box className="base-box">
-          <Outlet profile={profile} sx={{minHeight: '100vh'}} />
+          <Outlet profile={profile} sx={{ minHeight: '100vh' }} />
         </Box>
-        <Box sx={style => ({backgroundColor: style.palette.background.default})}>
+        <Box sx={style => ({ backgroundColor: style.palette.background.default })}>
           <Footer />
         </Box>
       </Container>

@@ -57,6 +57,7 @@ export function EditarPainel() {
   const [novoTitulo, setNovoTitulo] = React.useState(painel.nome);
 
   const [message, setMessage] = React.useState('Operação realizada com sucesso!');
+  const [success, setSuccess] = React.useState(true);
   const [alertOpen, setAlertOpen] = React.useState(false);
 
   const editarTitulo = () => {
@@ -68,8 +69,15 @@ export function EditarPainel() {
       .then(response => {
         painel.nome = novoTitulo;
         setEditandoTitulo(!editandoTitulo);
-        setAlertOpen(true);
         setMessage('Título salvo com sucesso!');
+        setSuccess(true);
+        setAlertOpen(true);
+        setTimeout(() => setAlertOpen(false), 2500);
+      }).catch(reason => {
+        setEditandoTitulo(false);
+        setMessage('Não foi possível salvar o título.');
+        setSuccess(false);
+        setAlertOpen(true);
         setTimeout(() => setAlertOpen(false), 2500);
       });
   };
@@ -96,6 +104,7 @@ export function EditarPainel() {
     <Box component="form" action="#">
       <Collapse in={alertOpen} sx={{position: 'fixed', top: 0, zIndex: 9999}}>
         <Alert
+          severity={success ? 'success' : 'error'}
           action={
             <IconButton
               aria-label="close"
@@ -118,18 +127,18 @@ export function EditarPainel() {
         <Grid container item direction="column" xs={1}>
           {editandoTitulo
             ? <Grid item>
-              <Button onClick={cancelarEditarTitulo}><Cancel fontSize="large" /></Button>
-              <Button onClick={salvarTitulo}><Check fontSize="large" /></Button>
+              <IconButton onClick={cancelarEditarTitulo}><Cancel fontSize="large" /></IconButton>
+              <IconButton onClick={salvarTitulo}><Check fontSize="large" /></IconButton>
             </Grid>
             : <Grid item>
-              <Button onClick={editarTitulo}><Edit fontSize="large" /></Button>
+              <IconButton onClick={editarTitulo}><Edit fontSize="large" /></IconButton>
             </Grid>
           }
         </Grid>
         <Grid item alignContent="stretch" alignItems="stretch" alignSelf="stretch" xs={11}>
           {editandoTitulo
             ? <TextField id="editar-titulo" variant="outlined" fullWidth label="Título" name="nome" value={novoTitulo} onChange={(ev) => setNovoTitulo(ev.target.value)} align="center" sx={{ pr: '4px' }} />
-            : <Typography gutterBottom variant="h2" color="primary" align="center">{painel.nome}</Typography>
+            : <Typography gutterBottom variant="h2" align="center">{painel.nome}</Typography>
           }
         </Grid>
         <TagAutor nome={painel.autor} sx={{ pt: '100%' }} />

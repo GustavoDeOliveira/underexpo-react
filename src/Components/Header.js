@@ -68,6 +68,7 @@ export default function Header() {
 
   React.useEffect(
     () => {
+      console.log('PROFILE %o', profile);
       if (profile.id) {
         console.log(profile);
         buscarUsuario(profile.id)
@@ -85,9 +86,8 @@ export default function Header() {
           });
       } else {
         localStorage.removeItem('key');
-        if (location.pathname !== '/exposicoes') {
-          location.pathname = '/exposicoes';
-        }
+        if (window.location.pathname !== '/exposicoes/')
+        window.location.pathname = '/exposicoes/';
       }
     },
     [profile]

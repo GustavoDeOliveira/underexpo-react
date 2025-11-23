@@ -11,12 +11,12 @@ import { CardObra } from './CardObra'
 import { DialogoConfirmacao } from '../../DialogoConfirmacao'
 import styled from '@emotion/styled'
 import { PreviaArquivo } from './PreviaArquivo'
-import AudioPlayer from 'material-ui-audio-player'
 import './listaObras.css'
 import InfiniteScroll from 'react-infinite-scroller'
 import { Carregamento } from '../../Geral/Carregamento'
 import { PerfilApi } from '../../../Services'
 import * as PerfilService from '../../../Services/PerfilService';
+import { AudioPlayer } from '../../Geral/AudioPlayer'
 
 const api = new PerfilApi();
 
@@ -46,33 +46,6 @@ const InputOculto = styled('input')({
   whiteSpace: 'nowrap',
   width: 1,
 });
-
-const aoClicarEmReproduzirAudio = (ev) => {
-  const botao = ev.currentTarget;
-  if (botao.tagName.toUpperCase() === 'BUTTON') {
-    if (botao.children) {
-      for (const child of botao.children) {
-        if (child.tagName.toUpperCase() === 'AUDIO') {
-          console.log(child);
-          if (child.paused) {
-            const promise = child.play();
-            if (promise) {
-              promise.then(() => console.log('play'))
-                .catch(reason => console.log(reason));
-            }
-          } else {
-            child.pause();
-          }
-          return;
-        }
-      }
-    }
-  }
-};
-
-const aoClicarEmPausarAudio = (ev) => {
-  ev.target.currentTime = 0;
-}
 
 async function removerObra(id) {
   return new Promise((resolve, reject) => {
@@ -199,7 +172,7 @@ export const ListaObras = ({ obrasLoader, buscar, tamanhoPagina }) => {
 
   const interacoes = (obra) => [
     obra.tipo === 'A'
-      ? { nome: 'reproduzir', botao: id => <Button variant="contained" onClick={aoClicarEmReproduzirAudio}><audio src={obra.url} onPause={aoClicarEmPausarAudio} hidden /><ListenIcon fontSize="large" /></Button> }
+      ? { nome: 'reproduzir', botao: id => <Button variant="contained" onClick={() => setArquivoVisualizacao(obra)}><ListenIcon fontSize="large" /></Button> }
       : { nome: 'visualizar', botao: id => <Button variant="contained" onClick={() => setArquivoVisualizacao(obra)}><PreviewIcon fontSize="large" /></Button> },
     { nome: 'excluir', botao: id => <Button variant="contained" onClick={() => dialogoExcluirObra(id)} className="destacado"><RemoveIcon fontSize="large" /></Button> },
     { nome: 'editar', botao: id => <Button variant="contained" onClick={() => editarObra(obra)}><EditIcon fontSize="large" /></Button> },

@@ -4,7 +4,7 @@ import React from 'react'
 import { DialogoConfirmacao } from '../DialogoConfirmacao'
 import styled from '@emotion/styled'
 import { PreviaArquivo } from './PreviaArquivo'
-import AudioPlayer from 'material-ui-audio-player'
+import { AudioPlayer } from './AudioPlayer'
 
 const audioMimeTypes = 'audio/mp3,audio/wav,audio/flac'
 const imageMimeTypes = 'image/png,image/jpeg,image/jpg,image/bmp'

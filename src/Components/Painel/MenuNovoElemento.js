@@ -52,8 +52,8 @@ export default function MenuNovoElemento({anchorEl, handleClose, open}) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        {itens.map(i => <MenuItem id={'opcao-' + i.id}>
-          <Button onClick={()=>handleClose(i)}>{i.name}</Button>
+        {itens.map(i => <MenuItem key={i} id={'opcao-' + i.id}>
+          <Button color="text" onClick={()=>handleClose(i)}>{i.name}</Button>
         </MenuItem>)}
       </Menu>
     </React.Fragment>
