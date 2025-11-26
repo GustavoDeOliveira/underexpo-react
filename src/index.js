@@ -8,8 +8,10 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 const rootElement = document.getElementById('root');
 const root = ReactDOM.createRoot(rootElement);
 
+const clientId = process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID;
+
 root.render(
-  <GoogleOAuthProvider clientId='237551140245-l488soclhvsrhr607e44rjqabsqavvpa.apps.googleusercontent.com'>
+  <GoogleOAuthProvider clientId={clientId}>
     <HelmetProvider>
       <Helmet>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
