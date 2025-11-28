@@ -2,11 +2,6 @@
     font-size: 36px;
 }
 
-form button:hover {
-    color: var(--mui-palette-primary-contrastText);
-    background-color: var(--mui-palette-primary-light);
-}
-
 button.remover-elemento {
     position: absolute;
     right: 0;

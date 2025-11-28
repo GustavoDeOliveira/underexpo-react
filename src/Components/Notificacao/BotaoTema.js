@@ -22,7 +22,7 @@ export default function BotaoTema() {
         <IconButton
           onClick={()=>setMode(modeSwitch[(modeSwitch.indexOf(mode)+1)%modeSwitch.length])}
           size="small"
-          sx={style => ({ ml: 2, color: style.palette.primary.contrastText })}
+          sx={style => ({ ml: 2, color: style.palette.secondary.light })}
         >
           <Icon {...{sx: {width: 32, height: 32 }}} />
         </IconButton>

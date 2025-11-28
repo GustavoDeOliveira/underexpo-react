@@ -147,7 +147,12 @@ export default function Header() {
                   color="text"
                   variant={'text'}
                   sx={style => (
-                    style.palette.mode === 'dark' ? {} : {
+                    style.palette.mode === 'dark' ? {
+                      textDecoration: 'exposicoes' === section ? 'underline' : 'none',
+                      '&:hover': {
+                        textDecoration: 'underline'
+                      }
+                    } : {
                     backgroundColor: 'exposicoes' === section ? style.palette.primary.light : style.palette.primary.main,
                     '&:hover': {
                       backgroundColor: style.palette.primary.light
@@ -161,7 +166,12 @@ export default function Header() {
               <Button component={Link} to="/perfil/contato" 
                   color="text"
                   variant={'text'}
-                  sx={style => (style.palette.mode === 'dark' ? {} : {
+                  sx={style => (style.palette.mode === 'dark' ? {
+                      textDecoration: 'perfil' === section ? 'underline' : 'none',
+                      '&:hover': {
+                        textDecoration: 'underline'
+                      }
+                    } : {
                     backgroundColor: 'perfil' === section ? style.palette.primary.light : style.palette.primary.main,
                     '&:hover': {
                       backgroundColor: style.palette.primary.light
@@ -196,7 +206,12 @@ export default function Header() {
                   secao.children.filter(r => r.navBar === true)
                     .map((rota) =>
                       <Button component={Link} key={rota.id} to={secao.path.concat('/', rota.path)} color="text"
-                          variant="text" sx={style => (style.palette.mode === 'dark' ? {} : {
+                          variant="text" sx={style => (style.palette.mode === 'dark' ? {
+                            textDecoration: rota.path === currentPath[2] || (rota.path === '' && !currentPath[2]) ? 'underline' : 'none',
+                            '&:hover': {
+                              textDecoration: 'underline'
+                            }
+                          } : {
                             backgroundColor: rota.path === currentPath[2] || (rota.path === '' && !currentPath[2]) ? style.palette.secondary.light : style.palette.secondary.main
                           })}>
                         {rota.name}

@@ -3,17 +3,17 @@
 }
 
 .menu-contatos a {
-    color: var(--mui-palette-secondary-contrastText);
+    color: var(--mui-palette-primary-light);
 }
 
 .menu-contatos p.canal {
     font-weight: bold;
-    color: var(--mui-palette-primary-contrastText);
+    color: var(--mui-palette-primary-light);
     display: inline;
 }
 
 .menu-contatos p.nome {
-    color: var(--mui-palette-secondary-contrastText);
+    color: var(--mui-palette-primary-light);
     font-weight: normal;
     display: inline;
 }

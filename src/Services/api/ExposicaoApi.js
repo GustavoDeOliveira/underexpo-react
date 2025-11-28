@@ -317,7 +317,7 @@ o elemento com o id informado será removido do painel.
         
       };
 
-      let authNames = [];
+      let authNames = ['underexpoAuth'];
       let contentTypes = [];
       let accepts = ['application/json', 'application/xml'];
       let returnType = [ResumoExposicao];

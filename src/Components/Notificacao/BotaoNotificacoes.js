@@ -11,7 +11,7 @@ export default function BotaoNotificacoes({handleClick, open}) {
         <IconButton
           onClick={handleClick}
           size="small"
-          sx={style => ({ ml: 2, color: style.palette.primary.contrastText })}
+          sx={style => ({ ml: 2, color: style.palette.mode === 'dark' ? style.palette.getContrastText(style.palette.background.paper) : style.palette.primary.contrastText })}
           aria-controls={open ? 'account-menu' : undefined}
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}

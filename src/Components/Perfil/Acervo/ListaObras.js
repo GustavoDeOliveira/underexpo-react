@@ -64,7 +64,7 @@ async function removerObra(id) {
 
 const CardNovaObra = ({ adicionandoElemento, dialogoAdicionarElemento }) => adicionandoElemento ?
   (<ButtonGroup className="card-nova-obra" sx={{ height: '100%', width: '100%' }}>
-    <Button disabled sx={theme => ({ height: '100%', width: '100%' })}>
+    <Button disabled sx={{ height: '100%', width: '100%' }}>
       <Stack alignItems="center">
         <LoadingIcon fontSize="large" />
         <Typography variant="h5">Enviando obra...</Typography>
@@ -72,13 +72,13 @@ const CardNovaObra = ({ adicionandoElemento, dialogoAdicionarElemento }) => adic
     </Button>
   </ButtonGroup>) :
   (<ButtonGroup className="card-nova-obra" sx={{ height: '100%' }}>
-    <Button onClick={() => dialogoAdicionarElemento(imageMimeTypes)} sx={theme => ({ height: '100%', width: '100%' })}>
+    <Button onClick={() => dialogoAdicionarElemento(imageMimeTypes)} sx={{ height: '100%', width: '100%' }}>
       <Stack alignItems="center">
         <AddIcon fontSize="large" />
         <Typography variant="h5">Enviar imagem</Typography>
       </Stack>
     </Button>
-    <Button onClick={() => dialogoAdicionarElemento(audioMimeTypes)} sx={theme => ({ height: '100%', width: '100%' })}>
+    <Button onClick={() => dialogoAdicionarElemento(audioMimeTypes)} sx={{ height: '100%', width: '100%' }}>
       <Stack alignItems="center">
         <AddIcon fontSize="large" />
         <Typography variant="h5">Enviar áudio</Typography>

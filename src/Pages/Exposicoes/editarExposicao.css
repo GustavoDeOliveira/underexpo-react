@@ -2,10 +2,6 @@
     font-size: 36px;
 }
 
-form button:hover {
-    color: var(--mui-palette-primary-contrastText);
-}
-
 button.remover-painel {
     position: absolute;
     right: 0;
@@ -19,5 +15,10 @@ button.remover-painel:hover {
 }
 
 button.sugestao-convite {
+    text-transform: none;
+}
+
+button.sugestao-convite:hover {
+    color: var(--mui-palette-text-primary);
     text-transform: none;
 }

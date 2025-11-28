@@ -24,8 +24,8 @@ button.confirmar-critico {
 }
 
 button.confirmar-critico:hover {
-    color: var(--mui-palette-error-light);
-    background-color: var(--mui-palette-secondary-light);
+    color: var(--mui-palette-primary-contrastText);
+    background-color: var(--mui-palette-error-light);
 }
 
 button.confirmar {

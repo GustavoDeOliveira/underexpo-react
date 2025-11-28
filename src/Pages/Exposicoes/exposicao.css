@@ -28,7 +28,7 @@ button.painel:hover {
 }
 
 button.denunciar {
-    margin-top: -56px;
+    z-index: 9999;
     display: flex;
     justify-content: flex-end;
     float: right;

@@ -1,5 +1,4 @@
 import React from 'react';
-import { red } from '@mui/material/colors';
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import { Link as RouterLink, MemoryRouter } from 'react-router-dom';
@@ -37,10 +36,10 @@ Router.propTypes = {
 
 const lightPalette = {
   primary: {
-    main: '#F7D4BC',
+    main: '#4B1B2E',
   },
   secondary: {
-    main: '#FAE3E3',
+    main: '#92567B',
   },
   text: {
     primary: '#1e1e1e',
@@ -55,10 +54,10 @@ const lightPalette = {
 
 const darkPalette = {
   primary: {
-    main: '#4B1B2E',
+    main: '#F7D4BC',
   },
   secondary: {
-    main: '#92567B',
+    main: '#FAE3E3',
   },
   text: {
     primary: '#ffffff',

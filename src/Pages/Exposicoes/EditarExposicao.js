@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { Alert, Box, Button, ButtonGroup, Collapse, Container, Grid, IconButton, Stack, TextField, Typography } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import { useLoaderData } from 'react-router-dom';
 import { TagAutor } from '../../Components/TagAutor';
 import './exposicao.css';
@@ -363,7 +364,7 @@ export const EditarExposicao = () => {
         </Container>
       }
       {editandoDescricao
-        ? <TextField id="editar-descricao" variant="outlined" fullWidth label="Descrição" name="descricao" value={novaDescricao} onChange={(ev) => setNovaDescricao(ev.target.value)} align="center" sx={{ pr: '4px', pl: '4px' }} />
+        ? <TextField multiline id="editar-descricao" variant="outlined" fullWidth label="Descrição" name="descricao" value={novaDescricao} onChange={(ev) => setNovaDescricao(ev.target.value)} align="center" sx={{ pr: '4px', pl: '4px' }} />
         : <Typography marginLeft="16px" marginRight="16px" gutterBottom variant="h4" color="text">{exposicao.descricao}</Typography>
       }
       <Stack>
@@ -392,12 +393,14 @@ export const EditarExposicao = () => {
             value={usuarioNovoConvite}
             onChange={(ev) => atualizarUsuarioNovoConvite(ev.target.value)}
           />
-          {statusBuscaUsuarios ? <Typography>{statusBuscaUsuarios}</Typography> : ''}
+          <Container sx={{marginTop: 2}}>
+          {statusBuscaUsuarios ? <Typography gutterBottom >{statusBuscaUsuarios}</Typography> : ''}
           {sugestoesConvites ? <ButtonGroup>
             {sugestoesConvites.map(sugestao => (
-              <Button className="sugestao-convite" key={sugestoesConvites.indexOf(sugestao)} onClick={() => confirmarEnvioConvite(sugestao)} autoFocus={sugestoesConvites.indexOf(sugestao) === 0}>{sugestao.nome}</Button>
+              <Button className="sugestao-convite" key={sugestoesConvites.indexOf(sugestao)} onClick={() => confirmarEnvioConvite(sugestao)} autoFocus={sugestoesConvites.indexOf(sugestao) === 0}><AddIcon />@{sugestao.nome}</Button>
             ))}
           </ButtonGroup> : ''}
+          </Container>
         </Container>
       </Stack>
       <Container>
@@ -408,7 +411,7 @@ export const EditarExposicao = () => {
               <Stack key={convite.id} direction="row"><Typography>{convite.nome}</Typography><Button onClick={() => confirmarRemoverConvite(convite)}>Cancelar Convite</Button></Stack>
             ))}
           </Stack>
-          : <Typography color="secondary">Nenhum convite pendente.</Typography>}
+          : <Typography color="text.secondary">Nenhum convite pendente.</Typography>}
       </Container>
     </Box>
   )

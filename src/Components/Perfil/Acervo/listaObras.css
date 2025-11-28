@@ -3,28 +3,17 @@
 }
 
 .click-zoom img {
-  transition: transform 0.25s ease;
+  width: 100%;
   cursor: zoom-in;
   overflow: scroll;
 }
 
 .click-zoom input[type=checkbox]:checked~img {
-  transform: scale(2);
+  width: fit-content;
   cursor: zoom-out
 }
 
 .click-zoom {
   width: 100%;
   height: 100%;
-}
-
-.card-nova-obra > button {
-  color: var(--mui-palette-text-primary);
-  background-color: var(--mui-palette-primary-main);
-  border-color: var(--mui-palette-primary-dark);
-}
-
-.card-nova-obra > button:hover {
-  background-color: var(--mui-palette-secondary-main);
-  border-color: var(--mui-palette-secondary-dark);
 }

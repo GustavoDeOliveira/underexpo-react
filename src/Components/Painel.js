@@ -185,7 +185,7 @@ export const Painel = ({ painel, ativo, editavel, aoSalvarAlteracoes, sx }) => {
                       <Container sx={style => (elemento.removido ? { backgroundColor: style.palette.action.disabledBackground, pointerEvents: 'none' } : {})}>
                         <TextField variant="filled" label="Título" name="titulo" value={elemento.titulo} fullWidth onChange={(ev) => alterarElemento(elemento.id, ev.target.value, elemento.conteudo, elemento.obraId)} align="center" sx={{ pr: '4px' }} />
                         {{
-                          'T': <TextField variant="filled" fullWidth label="Conteúdo" name="conteudo" value={elemento.conteudo} required onChange={(ev) => alterarElemento(elemento.id, elemento.titulo, ev.target.value, elemento.obraId)} align="center" sx={{ pr: '4px' }} />,
+                          'T': <TextField multiline variant="filled" fullWidth label="Conteúdo" name="conteudo" value={elemento.conteudo} required onChange={(ev) => alterarElemento(elemento.id, elemento.titulo, ev.target.value, elemento.obraId)} align="center" sx={{ pr: '4px' }} />,
                           'I': <Fragment>
                             <Button variant='contained' disabled={elemento.removido} fullWidth onClick={ev => popupEscolherImagem(ev, elemento)}>Escolher Imagem</Button>
                             <img src={elemento.conteudo} width="100%" />

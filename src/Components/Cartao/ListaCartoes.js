@@ -16,7 +16,7 @@ export const ListaCartoes = ({cards, interacoes, aoAdicionarElemento}) => {
     <Grid container spacing={4}>
       {aoAdicionarElemento
         ? <Grid item key={0} xs={12} sm={6} md={4}>
-            <Button onClick={adicionandoElemento ? () => { } : adicionarElemento} disabled={adicionandoElemento} sx={theme => ({ height: '100%', width: '100%', backgroundColor: theme.palette.primary.light, color: theme.palette.primary.contrastText })}>
+            <Button onClick={adicionandoElemento ? () => { } : adicionarElemento} disabled={adicionandoElemento} sx={{ height: '100%', width: '100%' }}>
               <Stack alignItems="center">
                 {adicionandoElemento ? <LoadingIcon fontSize="large" /> : <AddIcon fontSize="large" />}
                 <Typography variant="h5">{adicionandoElemento ? 'Organizando exposição...' : 'Nova Exposição'}</Typography>
