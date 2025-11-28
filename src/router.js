@@ -12,7 +12,7 @@ import { EditarPainel, loader as editarPainelLoader } from "./Pages/Exposicoes/E
 
 const router = createBrowserRouter([
     {
-      path: "/",
+      path: "",
       element: <Base />,
       errorElement: <Erro />,
       children: [

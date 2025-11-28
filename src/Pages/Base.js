@@ -8,12 +8,6 @@ import Header from '../Components/Header';
 import getTheme from '../theme';
 
 export const Base = (profile, setProfile) => {
-  if (location.pathname === '' || location.pathname === '/') {
-    location.replace('/exposicoes/');
-  }
-  if (location.pathname === '/perfil' || location.pathname === '/perfil/') {
-    location.replace('/exposicoes/');
-  }
   console.log('PROFILE %o', profile);
   if (!profile.id && !location.pathname.match(/\/exposicoes\/?[0-9]?/i)) {
     location.replace('/exposicoes/');
