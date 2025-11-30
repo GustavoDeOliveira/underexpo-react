@@ -8,14 +8,15 @@ import getTheme from '../theme';
 export const Erro = () => {
   const error = useRouteError();
   console.error('API ERROR %o', error);
-  if (error.status && location !== './index.html')
-  switch (error.status) {
-    case 401:
-    case 403:
-      localStorage.removeItem('key');
-    case 404:
-      location.replace('/exposicoes/');
-      break;
+  if (error.status && location !== './index.html') {
+    switch (error.status) {
+      case 401:
+      case 403:
+        localStorage.removeItem('key');
+      case 404:
+        location.replace('/exposicoes/');
+        break;
+    }
   }
 
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -25,7 +26,7 @@ export const Erro = () => {
     <CssVarsProvider theme={theme}>
       <CssBaseline />
       <Container>
-        <Box sx={style => ({backgroundColor: style.palette.background.default, minHeight: '100vh'})}>
+        <Box sx={style => ({ backgroundColor: style.palette.background.default, minHeight: '100vh' })}>
           <Header />
           <Container maxWidth="md">
             <Typography gutterBottom align="center" variant="h1">Epa!</Typography>
