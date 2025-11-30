@@ -8,12 +8,13 @@ import getTheme from '../theme';
 export const Erro = () => {
   const error = useRouteError();
   console.error('API ERROR %o', error);
+  if (error.status && location !== './index.html')
   switch (error.status) {
     case 401:
     case 403:
       localStorage.removeItem('key');
     case 404:
-      location.replace('/exposicoes');
+      location.replace('/exposicoes/');
       break;
   }
 

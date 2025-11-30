@@ -9,7 +9,7 @@ import getTheme from '../theme';
 
 export const Base = (profile, setProfile) => {
   console.log('PROFILE %o', profile);
-  if (!profile.id && !location.pathname.match(/\/exposicoes\/?[0-9]?/i)) {
+  if (!profile.id && !location.pathname === '/index.html' && !location.pathname.match(/\/exposicoes\/?[0-9]?/i)) {
     location.replace('/exposicoes/');
   }
 
