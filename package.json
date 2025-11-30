@@ -9,7 +9,7 @@
     "eject": "react-scripts eject"
   },
   "engines": {
-    "node": "16.14.2"
+    "node": "20.19.5"
   },
   "dependencies": {
     "@emotion/react": "latest",

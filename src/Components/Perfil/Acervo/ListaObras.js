@@ -115,7 +115,8 @@ export const ListaObras = ({ obrasLoader, buscar, tamanhoPagina }) => {
   }
 
   const adicionarOuAtualizarAcervo = (obra) => {
-    location.reload();
+    setObras([]);
+    carregarMais(1);
   }
 
   const adicionarObra = (ev, obra) => {
