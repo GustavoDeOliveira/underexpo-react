@@ -115,8 +115,15 @@ export const ListaObras = ({ obrasLoader, buscar, tamanhoPagina }) => {
   }
 
   const adicionarOuAtualizarAcervo = (obra) => {
-    setObras([]);
-    carregarMais(1);
+    if (obras.some(o => o.id === obra.id)) {
+      setObras(obras.map(o => {
+        if (o.id === obra.id) {
+          return obra;
+        } return o;
+      }))
+    } else {
+      setObras([...obras.slice(0, 1), obra, ...obras.slice(1)]);
+    }
   }
 
   const adicionarObra = (ev, obra) => {
@@ -125,11 +132,13 @@ export const ListaObras = ({ obrasLoader, buscar, tamanhoPagina }) => {
         if (data.fileUploadPromise) {
           data.fileUploadPromise
             .then(fileUploadResponse => {
+              console.log('FILEUPLOADRESPONSE %o', fileUploadResponse);
               adicionarOuAtualizarAcervo(fileUploadResponse);
               resolve(fileUploadResponse);
             })
             .catch(reason => reject(reason));
         } else {
+          console.log('data.OBRA %o', data.obra);
           adicionarOuAtualizarAcervo(data.obra);
           resolve(data.obra);
         };

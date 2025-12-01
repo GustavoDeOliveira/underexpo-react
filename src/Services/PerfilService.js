@@ -15,8 +15,8 @@ function respostaPadrao(response, resolve, reject) {
     reject(response.err);
   }
   else {
-    console.log('data: %o', response.data);
-    resolve(response.data);
+    console.log('res.body: %o', response.res.body);
+    resolve(response.res.body);
   }
 }
 
@@ -80,8 +80,9 @@ export const adicionarObra = async (titulo, arquivo) => {
       else {
         console.log('data: %o', data);
         console.log('arquivo: %o', arquivo);
-        resolve({obra: data, fileUploadPromise: new Promise((resolve, reject) => {
+        resolve({obra: res.body, fileUploadPromise: new Promise((resolve, reject) => {
           getApi().adicionarArquivoObra(arquivo, data.id, arquivo.type, (err, data, res) => {
+              console.log('AdicionarArquivoObra data: %o res: %o', data, res);
             respostaPadrao({err, data, res}, resolve, reject);
           });
         })})
@@ -104,7 +105,7 @@ export const atualizarObra = async (id, titulo, arquivo) => {
           resolve({obra: res.body, fileUploadPromise: new Promise((resolve, reject) => {
             getApi().adicionarArquivoObra(arquivo, id, arquivo.type, (err, data, res) => {
               console.log('AdicionarArquivoObra data: %o res: %o', data, res);
-              respostaPadrao({err, data: res.body, res}, resolve, reject);
+              respostaPadrao({err, data, res}, resolve, reject);
             });
           })})
         } else {
