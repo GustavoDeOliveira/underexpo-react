@@ -26,18 +26,25 @@ export default function Header() {
 
   async function promptCriarUsuario(previousError) {
     const username = prompt(previousError ? previousError : '' + 'Escolha um nome de usuário! Use apenas letras, números, ponto e sublinhado ( . e _ )');
-    if (username) {
+    console.log('MATCH %o', username.match("[^a-zA-Z0-9._]"));
+    if (username && !username.match("[^a-zA-Z0-9._]")) {
       try {
         const data = await criarUsuario(profile.id, username);
+        localStorage.setItem('key', profile.id);
         localStorage.setItem('name', data.nome);
         return data;
       } catch (reason) {
-        if (reason.statusCode == 409) {
+        if (reason.status == 409) {
           return await promptCriarUsuario('Já existe um usuário com esse nome, por favor escolha outro.\n');
         } else {
           return await promptCriarUsuario('Ocorreu um erro inesperado. Por favor tente novamente.\n');
         }
       }
+    }
+    if (username === undefined || username === null) {
+      logOut();
+    } else {
+      return await promptCriarUsuario();
     }
   }
 
@@ -75,6 +82,7 @@ export default function Header() {
           .then(data => {
             console.log(data);
             localStorage.setItem('key', profile.id);
+            localStorage.setItem('name', data.nome);
           }).catch(reason => {
             console.log('REASON: ' + reason)
             if ((reason.status && reason.status === 404) || (reason.response && reason.response.notFound)) {
@@ -86,6 +94,7 @@ export default function Header() {
           });
       } else {
         localStorage.removeItem('key');
+        localStorage.removeItem('name');
         if (window.location.pathname !== '/exposicoes/')
         window.location.pathname = '/exposicoes/';
       }
