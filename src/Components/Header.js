@@ -16,6 +16,7 @@ import * as PerfilService from '../Services/PerfilService';
 import router from '../router';
 import { Link, useLocation } from 'react-router-dom';
 import BotaoTema from './Notificacao/BotaoTema';
+import { LogoIcon } from './LogoIcon';
 
 export default function Header() {
   const location = useLocation();
@@ -144,14 +145,11 @@ export default function Header() {
     <React.Fragment>
       <AppBar position="relative" color="primary">
         <Toolbar sx={{ justifyContent: 'space-between', width: '100%' }}>
-          <CameraIcon sx={{ mr: 2 }} />
+          <LogoIcon sx={{mr: 12}} />
           <Stack
             direction="row"
             spacing={2}
           >
-            <Typography variant="h6"  noWrap>
-              UnderExpo
-            </Typography>
             <Button component={Link} to="/exposicoes/"
                   color="text"
                   variant={'text'}
