@@ -1,6 +1,6 @@
 import CameraIcon from '@mui/icons-material/PhotoCamera';
 import GoogleIcon from '@mui/icons-material/Google';
-import { Box, Button, Divider, Stack } from '@mui/material';
+import { Box, Button, Divider, Stack, useMediaQuery } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -17,6 +17,8 @@ import router from '../router';
 import { Link, useLocation } from 'react-router-dom';
 import BotaoTema from './Notificacao/BotaoTema';
 import { LogoIcon } from './LogoIcon';
+import { useTheme } from '@emotion/react';
+import { MobileHeader } from './Header/MobileHeader';
 
 export default function Header() {
   const location = useLocation();
@@ -24,6 +26,9 @@ export default function Header() {
   const [user, setUser] = React.useState();
   const [profile, setProfile] = React.useState({ id: getUserKey() });
   const [section, setSection] = React.useState(currentPath[1]);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   async function promptCriarUsuario(previousError) {
     const username = prompt(previousError ? previousError : '' + 'Escolha um nome de usuário! Use apenas letras, números, ponto e sublinhado ( . e _ )');
@@ -141,6 +146,7 @@ export default function Header() {
     }
   };
 
+  if (isMobile) return <MobileHeader profile={profile} handleLogout={logOut} handleLogin={login} />
   return (
     <React.Fragment>
       <AppBar position="relative" color="primary">

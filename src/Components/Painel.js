@@ -12,6 +12,7 @@ import { DialogoObras } from './DialogoObras';
 import { PerfilApi } from '../Services';
 import { MenuContatos } from './Painel/MenuContatos';
 import { AudioPlayer } from './Geral/AudioPlayer';
+import { Carregamento } from './Geral/Carregamento';
 
 const api = new PerfilApi();
 
@@ -256,7 +257,7 @@ export const Painel = ({ painel, ativo, editavel, aoSalvarAlteracoes, sx }) => {
         </Container>
       );
     } else {
-      return (<Container><Typography variant="h3">Carregando...</Typography></Container>);
+      return (<Carregamento />);
     }
   }
 }

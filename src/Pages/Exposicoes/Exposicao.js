@@ -112,10 +112,12 @@ export const Exposicao = () => {
           botoes={[<Button key="1" onClick={() => confirmarDenuncia()} className="confirmar-critico">Confirmar</Button>, <Button key="2" variant="contained" onClick={cancelarDenuncia} className="cancelar-principal" autoFocus>Cancelar</Button>]}
         />
       ) : ''}
-      {getUserKey() ? <Button className="denunciar" onClick={ev => setDenunciando(true)}><Typography>Reportar</Typography><ReportIcon fontSize='large' /></Button> : ''}
       <Container sx={{ position: 'relative', pt: '16px' }}>
         <Typography gutterBottom variant="h2" color="text" align="center">{exposicao.nome}</Typography>
         <TagAutor nome={exposicao.organizador} organizador sx={{ pt: '100%' }} />
+      </Container>
+      <Container sx={{alignContent: 'end'}}>
+        {getUserKey() ? <Button className="denunciar" onClick={ev => setDenunciando(true)}><Typography>Reportar</Typography><ReportIcon fontSize='large' /></Button> : ''}
       </Container>
       <Typography marginLeft="16px" marginRight="16px" className="descricao" gutterBottom variant="h4" color="text">{exposicao.descricao}</Typography>
       <Stack>

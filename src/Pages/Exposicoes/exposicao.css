@@ -28,39 +28,42 @@ button.painel:hover {
 }
 
 button.denunciar {
-    z-index: 9999;
     display: flex;
     justify-content: flex-end;
     float: right;
     width: 136px;
 }
-@media (max-width: 520px) {
-    button.denunciar {
-        margin-top: 0;
-        float: none;
-    }
-    button.denunciar > p {
-        width: 100%;
-        margin-right: 0;
-    }
-
-}
-
 button.denunciar > svg {
     color: var(--mui-palette-error-main);
     margin-right: 0;
 }
 button.denunciar > p {
     color: var(--mui-palette-error-main);
-    max-width: 0;
-    overflow: hidden;
-    transition: max-width 0.5s, margin-right 0.5s;
-    margin-right: -8px;
 }
-button.denunciar:hover > p {
-    max-width: 100%;
-    margin-right: 0;
-    transition: max-width 0.5s, margin-right 0.5s;
+@media (min-width: 520px) {
+    button.denunciar {
+        z-index: 999;
+    }
+        
+    button.denunciar > p {
+        max-width: 0;
+        overflow: hidden;
+        transition: max-width 0.5s, margin-right 0.5s;
+        margin-right: -8px;
+    }
+    button.denunciar:hover > p {
+        max-width: 100%;
+        margin-right: 0;
+        transition: max-width 0.5s, margin-right 0.5s;
+    }
+
+}
+@media (max-width: 520px) {
+    button.denunciar > p {
+        max-width: 100%;
+        margin-right: 0;
+    }
+
 }
 
 .painel.titulo {

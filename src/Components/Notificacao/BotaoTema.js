@@ -9,7 +9,7 @@ import { useColorScheme } from '@mui/material/styles';
 const modes = {'system': SystemThemeIcon, 'dark': DarkThemeIcon, 'light': LightThemeIcon}
 const modeSwitch = Object.keys(modes);
 
-export default function BotaoTema() {
+export default function BotaoTema({sx}) {
   const {mode, setMode} = useColorScheme();
   if (!mode) {
     return null;
@@ -22,7 +22,7 @@ export default function BotaoTema() {
         <IconButton
           onClick={()=>setMode(modeSwitch[(modeSwitch.indexOf(mode)+1)%modeSwitch.length])}
           size="small"
-          sx={style => ({ ml: 2, color: style.palette.secondary.light })}
+          sx={style => ({ml: 2, color: style.palette.secondary.light, ...sx })}
         >
           <Icon {...{sx: {width: 32, height: 32 }}} />
         </IconButton>
