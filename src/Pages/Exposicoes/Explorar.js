@@ -5,7 +5,7 @@ import { useLoaderData } from 'react-router-dom';
 import Cartao from '../../Components/Cartao/Cartao';
 import ExposicaoApi from '../../Services/api/ExposicaoApi';
 
-const pageSize = 10;
+const pageSize = 100;
 const api = new ExposicaoApi();
 
 async function buscar(page) {
